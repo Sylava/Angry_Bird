@@ -20,7 +20,6 @@ namespace siege_lab
         std::size_t m_count = 0;
 
     public:
-        template<typename... Args>
         EntityId Create(T _object)
         {
             for (std::size_t i = 0; i < Capacity; ++i)

@@ -37,3 +37,19 @@ TEST(Pool, P02_RecycledSlotChangesGeneration)
 	EXPECT_EQ(id_b.slot, id_a.slot);
 	EXPECT_NE(id_b.generation, id_a.generation);
 }
+
+TEST(Pool, P03_StaleHandleRejected)
+{
+	siege_lab::ObjectPool<int, 1> pool;
+
+	auto id_a = pool.Create(7);
+
+	ASSERT_TRUE(pool.Destroy(id_a));
+
+	auto id_b = pool.Create(42);
+
+	EXPECT_EQ(pool.Get(id_a), nullptr);
+
+	ASSERT_NE(pool.Get(id_b), nullptr);
+	EXPECT_EQ(*pool.Get(id_b), 42);
+}
