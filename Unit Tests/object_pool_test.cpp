@@ -69,3 +69,25 @@ TEST(Pool, P04_LiveAddressStable)
 	EXPECT_EQ(pool.Get(id_a), address);
 	EXPECT_EQ(*address, 10);
 }
+
+TEST(Pool, P05_ClearInvalidatesHandles)
+{
+	siege_lab::ObjectPool<int, 2> pool;
+
+	auto id_a = pool.Create(10);
+	auto id_b = pool.Create(20);
+
+	pool.Clear();
+
+	EXPECT_EQ(pool.GetCount(), 0);
+	EXPECT_EQ(pool.Get(id_a), nullptr);
+	EXPECT_EQ(pool.Get(id_b), nullptr);
+
+	auto id_c = pool.Create(30);
+
+	ASSERT_NE(pool.Get(id_c), nullptr);
+	EXPECT_EQ(*pool.Get(id_c), 30);
+
+	EXPECT_EQ(pool.Get(id_a), nullptr);
+	EXPECT_EQ(pool.Get(id_b), nullptr);
+}
