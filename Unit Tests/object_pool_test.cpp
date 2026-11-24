@@ -91,3 +91,27 @@ TEST(Pool, P05_ClearInvalidatesHandles)
 	EXPECT_EQ(pool.Get(id_a), nullptr);
 	EXPECT_EQ(pool.Get(id_b), nullptr);
 }
+
+TEST(Pool, ForEachVisitsLiveObjects)
+{
+	siege_lab::ObjectPool<int, 4> pool;
+
+	pool.Create(10);
+	auto id_b = pool.Create(20);
+	pool.Create(30);
+	pool.Create(40);
+
+	pool.Destroy(id_b);
+
+	int sum = 0;
+	int count = 0;
+
+	pool.ForEach([&](int& _value)
+		{
+			sum += _value;
+			++count;
+		});
+
+	EXPECT_EQ(sum, 80);
+	EXPECT_EQ(count, 3);
+}
