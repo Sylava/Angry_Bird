@@ -11,6 +11,11 @@ public:
 	}
 };
 
+template<typename T>
+concept CanCreateEntity = requires(siege_lab::SceneObjects<4>&_scene)
+{
+	_scene.template CreateEntity<T>();
+};
 
 TEST(SceneObjects, CreateAndGetEntities)
 {
@@ -27,4 +32,11 @@ TEST(SceneObjects, CreateAndGetEntities)
 	EXPECT_NE(scene.Get(id_b), nullptr);
 
 	EXPECT_EQ(scene.GetCount(), 2);
+}
+
+TEST(SceneObjects, RejectsInvalidEntityTypes)
+{
+	EXPECT_TRUE(CanCreateEntity<TestEntity>);
+	EXPECT_FALSE(CanCreateEntity<int>);
+	EXPECT_FALSE(CanCreateEntity<siege_lab::GameEntity>);
 }
