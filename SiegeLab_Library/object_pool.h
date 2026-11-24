@@ -1,12 +1,13 @@
 #ifndef SIEGE_LAB_OBJECT_POOL_H_
 #define SIEGE_LAB_OBJECT_POOL_H_
 
-#include <cstddef>
 #include <array>
+#include <cstddef>
+#include <cstdint>
 #include <optional>
 #include <utility>
+
 #include "entity_id.h"
-#include <cstdint>
 
 
 namespace siege_lab
@@ -26,7 +27,7 @@ namespace siege_lab
             {
                 if (!m_objects[i].has_value())
                 {
-                    m_objects[i] = std::move(_object);
+                    m_objects[i].emplace(std::move(_object));                   
                     ++m_count;
 
                     return { static_cast<int>(i), m_generations[i] };
