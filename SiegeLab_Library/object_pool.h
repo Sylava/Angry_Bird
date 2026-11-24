@@ -6,6 +6,8 @@
 #include <optional>
 #include <utility>
 #include "entity_id.h"
+#include <cstdint>
+
 
 namespace siege_lab
 {
@@ -14,6 +16,7 @@ namespace siege_lab
     {
     private:
         std::array<std::optional<T>, Capacity> m_objects;
+        std::array<std::uint64_t, Capacity> m_generations{};
         std::size_t m_count = 0;
 
     public:
@@ -27,7 +30,7 @@ namespace siege_lab
                     m_objects[i] = std::move(_object);
                     ++m_count;
 
-                    return { static_cast<int>(i), 0 };
+                    return { static_cast<int>(i), m_generations[i] };
                 }
             }
             return {};
@@ -52,7 +55,18 @@ namespace siege_lab
 
         bool Destroy(EntityId _id)
         {
-            return false;
+            if (Get(_id) == nullptr)
+            {
+                return false;
+            }
+
+            auto index = static_cast<std::size_t>(_id.slot);
+
+            m_objects[index].reset();
+            ++m_generations[index];
+            --m_count;
+
+            return true;
         }
 
         template<typename Func>
