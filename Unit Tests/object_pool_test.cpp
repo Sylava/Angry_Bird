@@ -1,6 +1,8 @@
 #include "pch.h"
+#include <memory>
 
 #include "object_pool.h"
+
 
 TEST(Pool, P01_CapacityLimit)
 {
@@ -114,4 +116,18 @@ TEST(Pool, ForEachVisitsLiveObjects)
 
 	EXPECT_EQ(sum, 80);
 	EXPECT_EQ(count, 3);
+}
+
+TEST(Pool, SupportsUniquePtr)
+{
+	siege_lab::ObjectPool<std::unique_ptr<int>, 2> pool;
+
+	auto id = pool.Create(std::make_unique<int>(42));
+
+	ASSERT_NE(pool.Get(id), nullptr);
+	EXPECT_EQ(**pool.Get(id), 42);
+
+	EXPECT_TRUE(pool.Destroy(id));
+	EXPECT_EQ(pool.Get(id), nullptr);
+	EXPECT_EQ(pool.GetCount(), 0);
 }
