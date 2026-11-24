@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include "scene_object.h"
+#include "scene_objects.h"
 
 
 class TestEntity : public siege_lab::GameEntity

@@ -33,7 +33,7 @@
     <ClInclude Include="game_entity.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="scene_object.h">
+    <ClInclude Include="scene_objects.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
