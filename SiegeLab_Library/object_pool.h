@@ -74,8 +74,15 @@ namespace siege_lab
         }
 
         template<typename Func>
-        void ForEach(Func&& _func)
+        void ForEach(Func _func)
         {
+            for (std::size_t i = 0; i < Capacity; ++i)
+            {
+                if (m_objects[i].has_value())
+                {
+                    _func(m_objects[i].value());
+                }
+            }
         }
 
         void Clear()
