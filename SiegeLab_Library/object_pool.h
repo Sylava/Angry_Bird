@@ -49,6 +49,11 @@ namespace siege_lab
                 return nullptr;
             }
 
+            if (_id.generation != m_generations[index])
+            {
+                return nullptr;
+            }
+
             return &m_objects[index].value();
         }
 
