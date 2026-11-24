@@ -3,6 +3,8 @@
 
 #include <cstddef>
 #include <memory>
+#include <concepts>
+#include <type_traits>
 
 #include "game_entity.h"
 #include "object_pool.h"
@@ -17,7 +19,9 @@ namespace siege_lab
 
     public:
         template<typename T>
-        EntityId CreateEntity()
+            requires std::derived_from<T, GameEntity> &&
+        (!std::is_abstract_v<T>)
+            EntityId CreateEntity()
         {
             return m_pool.Create(std::make_unique<T>());
         }
