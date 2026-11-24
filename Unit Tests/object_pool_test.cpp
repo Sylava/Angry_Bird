@@ -53,3 +53,19 @@ TEST(Pool, P03_StaleHandleRejected)
 	ASSERT_NE(pool.Get(id_b), nullptr);
 	EXPECT_EQ(*pool.Get(id_b), 42);
 }
+
+TEST(Pool, P04_LiveAddressStable)
+{
+	siege_lab::ObjectPool<int, 3> pool;
+
+	auto id_a = pool.Create(10);
+	int* address = pool.Get(id_a);
+
+	ASSERT_NE(address, nullptr);
+
+	pool.Create(20);
+	pool.Create(30);
+
+	EXPECT_EQ(pool.Get(id_a), address);
+	EXPECT_EQ(*address, 10);
+}
