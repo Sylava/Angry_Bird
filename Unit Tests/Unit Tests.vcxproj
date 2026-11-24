@@ -103,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="object_pool_test.cpp" />
+    <ClCompile Include="scene_objects_test.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
