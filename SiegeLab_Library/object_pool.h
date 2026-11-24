@@ -80,6 +80,16 @@ namespace siege_lab
 
         void Clear()
         {
+            for (std::size_t i = 0; i < Capacity; ++i)
+            {
+                if (m_objects[i].has_value())
+                {
+                    m_objects[i].reset();
+                    ++m_generations[i];
+                }
+            }
+
+            m_count = 0;
         }
 
         std::size_t GetCount() const
