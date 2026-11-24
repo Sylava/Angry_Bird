@@ -1,10 +1,7 @@
 #include "pch.h"
 #include <Game.h>
 
-TEST(TestCaseName, TestName) {
-
-	Game game;
-
-  EXPECT_EQ(1, 1);
-  EXPECT_TRUE(true);
+TEST(SetupTest, BasicAssertion)
+{
+    EXPECT_EQ(2 + 3, 5);
 }
