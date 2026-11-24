@@ -19,17 +19,24 @@ namespace siege_lab
         template<typename T>
         EntityId CreateEntity()
         {
-            return {};
+            return m_pool.Create(std::make_unique<T>());
         }
 
         GameEntity* Get(EntityId _id)
         {
-            return nullptr;
+            auto entity = m_pool.Get(_id);
+
+            if (entity == nullptr)
+            {
+                return nullptr;
+            }
+
+            return entity->get();
         }
 
         std::size_t GetCount() const
         {
-            return 0;
+            return m_pool.GetCount();
         }
     };
 }
