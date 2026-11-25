@@ -8,10 +8,14 @@ namespace
 {
     class TestProjectile : public siege_lab::Projectile
     {
-    public:
-        void Draw() override
+    protected:
+        Color GetColor() const override
         {
+            return WHITE;
         }
+
+    public:
+    
 
         void Configure(float _mass, float _radius)
         {

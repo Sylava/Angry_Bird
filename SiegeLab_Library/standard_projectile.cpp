@@ -7,7 +7,8 @@ namespace siege_lab
         ConfigurePhysics(kMass, kRadius);
     }
 
-    void StandardProjectile::Draw()
+    Color StandardProjectile::GetColor() const
     {
+        return RED;
     }
 }

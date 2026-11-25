@@ -1,8 +1,9 @@
 #ifndef SIEGE_LAB_PROJECTILE_H_
 #define SIEGE_LAB_PROJECTILE_H_
 
-#include "cyclone/collide_fine.h"
+#include "raylib.h"
 
+#include "cyclone/collide_fine.h"
 #include "game_entity.h"
 
 namespace siege_lab
@@ -11,6 +12,7 @@ namespace siege_lab
     {
     protected:
         void ConfigurePhysics(float _mass, float _radius);
+        virtual Color GetColor() const = 0;
 
     private:
         cyclone::CollisionSphere m_sphere{};
@@ -19,6 +21,8 @@ namespace siege_lab
         Projectile();
 
         cyclone::CollisionSphere& GetSphere();
+
+        void Draw() override;
     };
 }
 

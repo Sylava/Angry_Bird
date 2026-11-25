@@ -7,7 +7,8 @@ namespace siege_lab
         ConfigurePhysics(kMass, kRadius);
     }
 
-    void HeavyProjectile::Draw()
+    Color HeavyProjectile::GetColor() const
     {
+        return DARKGRAY;
     }
 }

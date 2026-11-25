@@ -37,4 +37,13 @@ namespace siege_lab
         m_sphere.radius = _radius;
         m_sphere.calculateInternals();
     }
+
+    void Projectile::Draw()
+    {
+        cyclone::Vector3 position = GetBody().getPosition();
+
+        ::Vector3 center = { position.x, position.y, position.z };
+
+        DrawSphere(center, m_sphere.radius, GetColor());
+    }
 }
