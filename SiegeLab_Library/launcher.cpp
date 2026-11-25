@@ -62,4 +62,8 @@ namespace siege_lab
     {
         m_speed = std::clamp(m_speed + _delta_speed, kMinSpeed, kMaxSpeed);
     }
+
+    void Launcher::Update(const InputSnapshot& _input, float _dt)
+    {
+    }
 }

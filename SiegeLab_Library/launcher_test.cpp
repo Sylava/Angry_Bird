@@ -140,3 +140,42 @@ TEST(Launcher, AdjustmentsRespectLimits)
     EXPECT_FLOAT_EQ(launcher.GetPitch(), 5.0f);
     EXPECT_FLOAT_EQ(launcher.GetSpeed(), 8.0f);
 }
+
+TEST(Launcher, UpdateAppliesAimAndSpeed)
+{
+    siege_lab::Launcher launcher(
+        { -8, 1, 0 }, 0.0f, 30.0f, 16.0f);
+
+    siege_lab::InputSnapshot input{};
+    input.launcher_yaw = 1.0f;
+    input.launcher_pitch = -1.0f;
+    input.launcher_speed = 1.0f;
+
+    launcher.Update(input, 0.5f);
+
+    EXPECT_FLOAT_EQ(launcher.GetYaw(), 15.0f);
+    EXPECT_FLOAT_EQ(launcher.GetPitch(), 15.0f);
+    EXPECT_FLOAT_EQ(launcher.GetSpeed(), 18.5f);
+}
+
+TEST(Launcher, UpdateSelectsProjectileKind)
+{
+    siege_lab::Launcher launcher(
+        { -8, 1, 0 }, 0.0f, 30.0f, 16.0f);
+
+    siege_lab::InputSnapshot input{};
+    input.select_heavy = true;
+
+    launcher.Update(input, 0.0f);
+
+    EXPECT_EQ(launcher.GetShotSettings().projectile_kind,
+        siege_lab::ProjectileKind::kHeavy);
+
+    input.select_heavy = false;
+    input.select_standard = true;
+
+    launcher.Update(input, 0.0f);
+
+    EXPECT_EQ(launcher.GetShotSettings().projectile_kind,
+        siege_lab::ProjectileKind::kStandard);
+}

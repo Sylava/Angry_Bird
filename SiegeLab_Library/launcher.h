@@ -2,7 +2,7 @@
 #define SIEGE_LAB_LAUNCHER_H_
 
 #include "raylib.h"
-
+#include "input_snapshot.h"
 #include "shot_settings.h"
 
 namespace siege_lab
@@ -24,6 +24,9 @@ namespace siege_lab
         static constexpr float kMinSpeed = 8.0f;
         static constexpr float kMaxSpeed = 22.0f;
 
+        static constexpr float kAimSpeed = 30.0f;
+        static constexpr float kSpeedChangeRate = 5.0f;
+
 
     public:
         Launcher(Vector3 _origin, float _yaw,
@@ -37,6 +40,8 @@ namespace siege_lab
         void SetProjectileKind(ProjectileKind _kind);
         void AdjustAim(float _delta_yaw, float _delta_pitch);
         void AdjustSpeed(float _delta_speed);
+
+        void Update(const InputSnapshot& _input, float _dt);
     };
 }
 
