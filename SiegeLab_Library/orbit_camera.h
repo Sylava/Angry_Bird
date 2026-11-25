@@ -27,6 +27,8 @@ namespace siege_lab
 
         void RotateKeyboard(float _yaw_input,
             float _pitch_input, float _dt);
+
+        void RotateMouse(float _delta_x, float _delta_y);
     };
 }
 

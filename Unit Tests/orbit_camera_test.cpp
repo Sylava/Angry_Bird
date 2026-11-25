@@ -63,3 +63,22 @@ TEST(OrbitCamera, C04_KeyboardFrameRateIndependent)
 	EXPECT_NEAR(orbit_a.GetYaw(), 45.0f, 0.001f);
 	EXPECT_NEAR(orbit_b.GetYaw(), 45.0f, 0.001f);
 }
+
+TEST(OrbitCamera, C05_MouseFrameRateIndependent)
+{
+	siege_lab::OrbitCamera orbit_a({ 0, 0, 0 }, 0, 20, 10);
+	siege_lab::OrbitCamera orbit_b({ 0, 0, 0 }, 0, 20, 10);
+
+	for (int i = 0; i < 60; ++i)
+	{
+		orbit_a.RotateMouse(2.0f, 0.0f);
+	}
+
+	for (int i = 0; i < 30; ++i)
+	{
+		orbit_b.RotateMouse(4.0f, 0.0f);
+	}
+
+	EXPECT_NEAR(orbit_a.GetYaw(), 30.0f, 0.001f);
+	EXPECT_NEAR(orbit_b.GetYaw(), 30.0f, 0.001f);
+}

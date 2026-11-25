@@ -64,6 +64,10 @@ namespace siege_lab
         m_pitch = std::clamp(m_pitch, 10.0f, 80.0f);
     }
 
+    void OrbitCamera::RotateMouse(float _delta_x, float _delta_y)
+    {
+    }
+
 
 
 }
