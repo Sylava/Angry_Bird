@@ -66,6 +66,12 @@ namespace siege_lab
 
     void OrbitCamera::RotateMouse(float _delta_x, float _delta_y)
     {
+        constexpr float kMouseSensitivity = 0.25f;
+
+        m_yaw += _delta_x * kMouseSensitivity;
+        m_pitch -= _delta_y * kMouseSensitivity;
+
+        m_pitch = std::clamp(m_pitch, 10.0f, 80.0f);
     }
 
 
