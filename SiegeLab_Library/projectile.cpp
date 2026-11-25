@@ -11,4 +11,8 @@ namespace siege_lab
     {
         return m_sphere;
     }
+
+    void Projectile::ConfigurePhysics(float _mass, float _radius)
+    {
+    }
 }

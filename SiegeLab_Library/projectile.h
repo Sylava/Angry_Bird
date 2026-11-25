@@ -9,6 +9,9 @@ namespace siege_lab
 {
     class Projectile : public GameEntity
     {
+    protected:
+        void ConfigurePhysics(float _mass, float _radius);
+
     private:
         cyclone::CollisionSphere m_sphere{};
 
