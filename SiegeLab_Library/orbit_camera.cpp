@@ -70,6 +70,10 @@ namespace siege_lab
         m_pitch = std::clamp(m_pitch, kMinPitch, kMaxPitch);
     }
 
+    void OrbitCamera::Zoom(float _wheel_delta)
+    {
+    }
+
 
 
 }

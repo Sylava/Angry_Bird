@@ -82,3 +82,25 @@ TEST(OrbitCamera, C05_MouseFrameRateIndependent)
 	EXPECT_NEAR(orbit_a.GetYaw(), 30.0f, 0.001f);
 	EXPECT_NEAR(orbit_b.GetYaw(), 30.0f, 0.001f);
 }
+
+TEST(OrbitCamera, ZoomChangesRadius)
+{
+	siege_lab::OrbitCamera orbit({ 0, 0, 0 }, 0, 20, 10);
+
+	orbit.Zoom(1.0f);
+	EXPECT_FLOAT_EQ(orbit.GetRadius(), 9.0f);
+
+	orbit.Zoom(-1.0f);
+	EXPECT_FLOAT_EQ(orbit.GetRadius(), 10.0f);
+}
+
+TEST(OrbitCamera, ZoomClampsRadius)
+{
+	siege_lab::OrbitCamera orbit({ 0, 0, 0 }, 0, 20, 10);
+
+	orbit.Zoom(100.0f);
+	EXPECT_FLOAT_EQ(orbit.GetRadius(), 4.0f);
+
+	orbit.Zoom(-100.0f);
+	EXPECT_FLOAT_EQ(orbit.GetRadius(), 25.0f);
+}

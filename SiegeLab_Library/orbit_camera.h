@@ -20,6 +20,7 @@ namespace siege_lab
         static constexpr float kMaxRadius = 25.0f;
         static constexpr float kRotationSpeed = 90.0f;
         static constexpr float kMouseSensitivity = 0.25f;
+        static constexpr float kZoomSpeed = 1.0f;
 
     public:
         OrbitCamera(Vector3 _target, float _yaw,
@@ -35,6 +36,7 @@ namespace siege_lab
             float _pitch_input, float _dt);
 
         void RotateMouse(float _delta_x, float _delta_y);
+        void Zoom(float _wheel_delta);
     };
 }
 
