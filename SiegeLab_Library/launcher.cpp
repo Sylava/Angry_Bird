@@ -49,5 +49,6 @@ namespace siege_lab
     }
     void Launcher::SetProjectileKind(ProjectileKind _kind)
     {
+        m_projectile_kind = _kind;
     }
 }
