@@ -99,3 +99,44 @@ TEST(Launcher, L05_SelectsProjectileKind)
 
     EXPECT_FLOAT_EQ(launcher.GetShotSettings().speed, 16.0f);
 }
+
+TEST(Launcher, AdjustAimChangesAngles)
+{
+    siege_lab::Launcher launcher(
+        { -8, 1, 0 }, 0.0f, 30.0f, 16.0f);
+
+    launcher.AdjustAim(10.0f, -5.0f);
+
+    EXPECT_FLOAT_EQ(launcher.GetYaw(), 10.0f);
+    EXPECT_FLOAT_EQ(launcher.GetPitch(), 25.0f);
+}
+
+TEST(Launcher, AdjustSpeedChangesSpeed)
+{
+    siege_lab::Launcher launcher(
+        { -8, 1, 0 }, 0.0f, 30.0f, 16.0f);
+
+    launcher.AdjustSpeed(3.0f);
+
+    EXPECT_FLOAT_EQ(launcher.GetSpeed(), 19.0f);
+}
+
+TEST(Launcher, AdjustmentsRespectLimits)
+{
+    siege_lab::Launcher launcher(
+        { -8, 1, 0 }, 0.0f, 30.0f, 16.0f);
+
+    launcher.AdjustAim(100.0f, 100.0f);
+    launcher.AdjustSpeed(100.0f);
+
+    EXPECT_FLOAT_EQ(launcher.GetYaw(), 30.0f);
+    EXPECT_FLOAT_EQ(launcher.GetPitch(), 55.0f);
+    EXPECT_FLOAT_EQ(launcher.GetSpeed(), 22.0f);
+
+    launcher.AdjustAim(-100.0f, -100.0f);
+    launcher.AdjustSpeed(-100.0f);
+
+    EXPECT_FLOAT_EQ(launcher.GetYaw(), -30.0f);
+    EXPECT_FLOAT_EQ(launcher.GetPitch(), 5.0f);
+    EXPECT_FLOAT_EQ(launcher.GetSpeed(), 8.0f);
+}

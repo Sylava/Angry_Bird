@@ -51,4 +51,12 @@ namespace siege_lab
     {
         m_projectile_kind = _kind;
     }
+
+    void Launcher::AdjustAim(float _delta_yaw, float _delta_pitch)
+    {
+    }
+
+    void Launcher::AdjustSpeed(float _delta_speed)
+    {
+    }
 }
