@@ -11,6 +11,27 @@ public:
 	}
 };
 
+class TestEntityWithArgs : public siege_lab::GameEntity
+{
+private:
+	int m_value;
+
+public:
+	explicit TestEntityWithArgs(int _value)
+	{
+		m_value = _value;
+	}
+
+	void Draw() override
+	{
+	}
+
+	int GetValue() const
+	{
+		return m_value;
+	}
+};
+
 template<typename T>
 concept CanCreateEntity = requires(siege_lab::SceneObjects<4>&_scene)
 {
@@ -39,4 +60,16 @@ TEST(SceneObjects, RejectsInvalidEntityTypes)
 	EXPECT_TRUE(CanCreateEntity<TestEntity>);
 	EXPECT_FALSE(CanCreateEntity<int>);
 	EXPECT_FALSE(CanCreateEntity<siege_lab::GameEntity>);
+}
+
+TEST(SceneObjects, CreatesEntityWithArguments)
+{
+	siege_lab::SceneObjects<4> scene;
+
+	auto id = scene.CreateEntity<TestEntityWithArgs>(42);
+
+	auto entity = dynamic_cast<TestEntityWithArgs*>(scene.Get(id));
+
+	ASSERT_NE(entity, nullptr);
+	EXPECT_EQ(entity->GetValue(), 42);
 }

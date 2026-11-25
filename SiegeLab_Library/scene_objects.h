@@ -25,7 +25,14 @@ namespace siege_lab
         {
             return m_pool.Create(std::make_unique<T>());
         }
-
+        template<typename T, typename... Args>
+            requires std::derived_from<T, GameEntity> &&
+        (!std::is_abstract_v<T>) &&
+            (sizeof...(Args) > 0)
+            EntityId CreateEntity(Args... _args)
+        {
+            return {};
+        }
         GameEntity* Get(EntityId _id)
         {
             auto entity = m_pool.Get(_id);
