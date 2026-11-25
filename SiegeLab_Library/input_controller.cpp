@@ -8,16 +8,16 @@ namespace siege_lab
     {
         InputSnapshot input;
 
-        if (IsKeyDown(KEY_RIGHT))
+        if (IsKeyDown(KEY_D  ))
             input.camera_yaw += 1.0f;
 
-        if (IsKeyDown(KEY_LEFT))
+        if (IsKeyDown(KEY_A))
             input.camera_yaw -= 1.0f;
 
-        if (IsKeyDown(KEY_UP))
+        if (IsKeyDown(KEY_W))
             input.camera_pitch += 1.0f;
 
-        if (IsKeyDown(KEY_DOWN))
+        if (IsKeyDown(KEY_S))
             input.camera_pitch -= 1.0f;
 
         Vector2 mouse_delta = GetMouseDelta();
