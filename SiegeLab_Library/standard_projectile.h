@@ -7,6 +7,10 @@ namespace siege_lab
 {
     class StandardProjectile : public Projectile
     {
+    private:
+        static constexpr float kMass = 1.0f;
+        static constexpr float kRadius = 0.28f;
+
     public:
         StandardProjectile();
         void Draw() override;

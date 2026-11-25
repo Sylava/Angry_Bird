@@ -4,7 +4,7 @@ namespace siege_lab
 {
     HeavyProjectile::HeavyProjectile()
     {
-        ConfigurePhysics(2.0f, 0.36f);
+        ConfigurePhysics(kMass, kRadius);
     }
 
     void HeavyProjectile::Draw()
