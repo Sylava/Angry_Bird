@@ -82,6 +82,12 @@ namespace siege_lab
 
         void FlushRemovals()
         {
+            for (std::size_t i = 0; i < m_removal_count; ++i)
+            {
+                m_pool.Destroy(m_pending_removals[i]);
+            }
+
+            m_removal_count = 0;
         }
 
         std::size_t GetCount() const
