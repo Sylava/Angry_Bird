@@ -15,7 +15,14 @@ namespace siege_lab
         float m_pitch;
         float m_speed;
         ProjectileKind m_projectile_kind;
+        static constexpr float kMinYaw = -30.0f;
+        static constexpr float kMaxYaw = 30.0f;
 
+        static constexpr float kMinPitch = 5.0f;
+        static constexpr float kMaxPitch = 55.0f;
+
+        static constexpr float kMinSpeed = 8.0f;
+        static constexpr float kMaxSpeed = 22.0f;
     public:
         Launcher(Vector3 _origin, float _yaw,
             float _pitch, float _speed);
