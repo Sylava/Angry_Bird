@@ -65,5 +65,20 @@ namespace siege_lab
 
     void Launcher::Update(const InputSnapshot& _input, float _dt)
     {
+        AdjustAim(
+            _input.launcher_yaw * kAimSpeed * _dt,
+            _input.launcher_pitch * kAimSpeed * _dt);
+
+        AdjustSpeed(
+            _input.launcher_speed * kSpeedChangeRate * _dt);
+
+        if (_input.select_standard)
+        {
+            SetProjectileKind(ProjectileKind::kStandard);
+        }
+        else if (_input.select_heavy)
+        {
+            SetProjectileKind(ProjectileKind::kHeavy);
+        }
     }
 }
