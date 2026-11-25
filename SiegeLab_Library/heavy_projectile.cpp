@@ -2,11 +2,12 @@
 
 namespace siege_lab
 {
-	HeavyProjectile::HeavyProjectile()
-	{
-	}
+    HeavyProjectile::HeavyProjectile()
+    {
+        ConfigurePhysics(2.0f, 0.36f);
+    }
 
-	void HeavyProjectile::Draw()
-	{
-	}
+    void HeavyProjectile::Draw()
+    {
+    }
 }
