@@ -168,6 +168,7 @@
     <ClInclude Include="projectile.h" />
     <ClInclude Include="projectile_factory.h" />
     <ClInclude Include="scene_objects.h" />
+    <ClInclude Include="shot_controller.h" />
     <ClInclude Include="shot_settings.h" />
     <ClInclude Include="standard_projectile.h" />
   </ItemGroup>
