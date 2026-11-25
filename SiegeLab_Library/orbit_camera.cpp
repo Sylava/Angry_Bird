@@ -10,8 +10,8 @@ namespace siege_lab
     {
         m_target = _target;
         m_yaw = _yaw;
-        m_pitch = std::clamp(_pitch, 10.0f, 80.0f);
-        m_radius = std::clamp(_radius, 4.0f, 25.0f);
+        m_pitch = std::clamp(_pitch, kMinPitch, kMaxPitch);
+        m_radius = std::clamp(_radius, kMinRadius, kMaxRadius);
     }
 
     Camera3D OrbitCamera::GetCamera() const
@@ -56,22 +56,18 @@ namespace siege_lab
     void OrbitCamera::RotateKeyboard(float _yaw_input,
         float _pitch_input, float _dt)
     {
-        constexpr float kRotationSpeed = 90.0f;
-
         m_yaw += _yaw_input * kRotationSpeed * _dt;
         m_pitch += _pitch_input * kRotationSpeed * _dt;
 
-        m_pitch = std::clamp(m_pitch, 10.0f, 80.0f);
+        m_pitch = std::clamp(m_pitch, kMinPitch, kMaxPitch);
     }
 
     void OrbitCamera::RotateMouse(float _delta_x, float _delta_y)
     {
-        constexpr float kMouseSensitivity = 0.25f;
-
         m_yaw += _delta_x * kMouseSensitivity;
         m_pitch -= _delta_y * kMouseSensitivity;
 
-        m_pitch = std::clamp(m_pitch, 10.0f, 80.0f);
+        m_pitch = std::clamp(m_pitch, kMinPitch, kMaxPitch);
     }
 
 

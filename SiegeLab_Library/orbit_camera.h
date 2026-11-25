@@ -14,6 +14,12 @@ namespace siege_lab
         float m_yaw;
         float m_pitch;
         float m_radius;
+        static constexpr float kMinPitch = 10.0f;
+        static constexpr float kMaxPitch = 80.0f;
+        static constexpr float kMinRadius = 4.0f;
+        static constexpr float kMaxRadius = 25.0f;
+        static constexpr float kRotationSpeed = 90.0f;
+        static constexpr float kMouseSensitivity = 0.25f;
 
     public:
         OrbitCamera(Vector3 _target, float _yaw,
