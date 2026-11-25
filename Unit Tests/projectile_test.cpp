@@ -137,3 +137,27 @@ TEST(Projectile, FireUpdatesColliderPosition)
     EXPECT_NEAR(position.y, 1.0f, 0.0001f);
     EXPECT_NEAR(position.z, 0.0f, 0.0001f);
 }
+
+TEST(Projectile, PR03_FallsUnderGravity)
+{
+    siege_lab::StandardProjectile projectile;
+    cyclone::RigidBody& body = projectile.GetBody();
+
+    body.setPosition(0.0f, 20.0f, 0.0f);
+    body.setVelocity(0.0f, 0.0f, 0.0f);
+    body.setAcceleration(0.0f, -9.81f, 0.0f);
+    body.setDamping(1.0f, 1.0f);
+    body.setCanSleep(false);
+    body.setAwake(true);
+    body.calculateDerivedData();
+
+    constexpr float kFixedDt = 1.0f / 60.0f;
+
+    for (int i = 0; i < 60; ++i)
+    {
+        body.integrate(kFixedDt);
+    }
+
+    EXPECT_NEAR(body.getVelocity().y, -9.81f, 0.05f);
+    EXPECT_NEAR(body.getPosition().y, 15.01f, 0.10f);
+}
