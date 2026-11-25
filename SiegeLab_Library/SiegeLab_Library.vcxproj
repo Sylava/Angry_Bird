@@ -156,12 +156,15 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="game_entity.h" />
+    <ClInclude Include="i_camera_controller.h" />
     <ClInclude Include="object_pool.h" />
+    <ClInclude Include="orbit_camera.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="scene_objects.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="orbit_camera.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
