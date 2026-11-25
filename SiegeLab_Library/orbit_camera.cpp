@@ -72,6 +72,8 @@ namespace siege_lab
 
     void OrbitCamera::Zoom(float _wheel_delta)
     {
+        m_radius -= _wheel_delta * kZoomSpeed;
+        m_radius = std::clamp(m_radius, kMinRadius, kMaxRadius);
     }
 
 
