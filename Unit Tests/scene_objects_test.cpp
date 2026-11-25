@@ -73,3 +73,16 @@ TEST(SceneObjects, CreatesEntityWithArguments)
 	ASSERT_NE(entity, nullptr);
 	EXPECT_EQ(entity->GetValue(), 42);
 }
+
+TEST(SceneObjects, RemovalIsDeferred)
+{
+	siege_lab::SceneObjects<4> scene;
+
+	auto id = scene.CreateEntity<TestEntity>();
+
+	ASSERT_NE(scene.Get(id), nullptr);
+
+	EXPECT_TRUE(scene.RequestRemoval(id));
+	EXPECT_NE(scene.Get(id), nullptr);
+	EXPECT_EQ(scene.GetCount(), 1);
+}

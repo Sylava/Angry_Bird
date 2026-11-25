@@ -40,6 +40,11 @@ namespace siege_lab
             return entity->get();
         }
 
+        bool RequestRemoval(EntityId _id)
+        {
+            return false;
+        }
+
         std::size_t GetCount() const
         {
             return m_pool.GetCount();
