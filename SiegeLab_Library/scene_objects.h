@@ -21,6 +21,20 @@ namespace siege_lab
         std::array<EntityId, Capacity> m_pending_removals{};
         std::size_t m_removal_count = 0;
 
+        bool IsRemovalPending(EntityId _id) const
+        {
+            for (std::size_t i = 0; i < m_removal_count; ++i)
+            {
+                if (m_pending_removals[i].slot == _id.slot &&
+                    m_pending_removals[i].generation == _id.generation)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
     public:
         template<typename T, typename... Args>
             requires std::derived_from<T, GameEntity>&&
@@ -46,6 +60,11 @@ namespace siege_lab
         bool RequestRemoval(EntityId _id)
         {
             if (Get(_id) == nullptr)
+            {
+                return false;
+            }
+
+            if (IsRemovalPending(_id))
             {
                 return false;
             }
