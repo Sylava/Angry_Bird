@@ -47,4 +47,7 @@ namespace siege_lab
     {
         return m_speed;
     }
+    void Launcher::SetProjectileKind(ProjectileKind _kind)
+    {
+    }
 }

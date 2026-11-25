@@ -76,3 +76,26 @@ TEST(Launcher, L04_AimIsIndependentFromCamera)
     EXPECT_NEAR(after.y, before.y, 0.0001f);
     EXPECT_NEAR(after.z, before.z, 0.0001f);
 }
+
+TEST(Launcher, L05_SelectsProjectileKind)
+{
+    siege_lab::Launcher launcher(
+        { -8, 1, 0 }, 0.0f, 30.0f, 16.0f);
+
+    EXPECT_EQ(launcher.GetShotSettings().projectile_kind,
+        siege_lab::ProjectileKind::kStandard);
+
+    launcher.SetProjectileKind(
+        siege_lab::ProjectileKind::kHeavy);
+
+    EXPECT_EQ(launcher.GetShotSettings().projectile_kind,
+        siege_lab::ProjectileKind::kHeavy);
+
+    launcher.SetProjectileKind(
+        siege_lab::ProjectileKind::kStandard);
+
+    EXPECT_EQ(launcher.GetShotSettings().projectile_kind,
+        siege_lab::ProjectileKind::kStandard);
+
+    EXPECT_FLOAT_EQ(launcher.GetShotSettings().speed, 16.0f);
+}

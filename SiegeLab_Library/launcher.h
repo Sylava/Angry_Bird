@@ -34,6 +34,7 @@ namespace siege_lab
         float GetYaw() const;
         float GetPitch() const;
         float GetSpeed() const;
+        void SetProjectileKind(ProjectileKind _kind);
     };
 }
 
