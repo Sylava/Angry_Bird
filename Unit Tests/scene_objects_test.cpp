@@ -86,3 +86,16 @@ TEST(SceneObjects, RemovalIsDeferred)
 	EXPECT_NE(scene.Get(id), nullptr);
 	EXPECT_EQ(scene.GetCount(), 1);
 }
+
+TEST(SceneObjects, RejectsDuplicateRemovalRequests)
+{
+	siege_lab::SceneObjects<4> scene;
+
+	auto id = scene.CreateEntity<TestEntity>();
+
+	EXPECT_TRUE(scene.RequestRemoval(id));
+	EXPECT_FALSE(scene.RequestRemoval(id));
+
+	EXPECT_NE(scene.Get(id), nullptr);
+	EXPECT_EQ(scene.GetCount(), 1);
+}
