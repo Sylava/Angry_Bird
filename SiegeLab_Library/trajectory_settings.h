@@ -17,15 +17,17 @@ namespace siege_lab
 		Vector3 velocity = {};
 		Vector3 acceleration = { 0.0f, -9.81f, 0.0f };
 
+		float mass = 1.0f;
 		float radius = 0.28f;
 		float fixed_dt = 1.0f / 60.0f;
 		float damping = 1.0f;
+		float angular_damping = 0.85f;
 
 		int max_steps = 120;
 
 		std::vector<TrajectoryObstacle> obstacles;
 	};
 
-}
+}  // namespace siege_lab
 
-#endif
+#endif  // SIEGE_LAB_LIBRARY_TRAJECTORY_SETTINGS_H_

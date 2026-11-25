@@ -1,5 +1,6 @@
 #include <vector>
 #include <cstddef>
+#include <cyclone/core.h>
 
 #include "trajectory_predictor.h"
 #include <cyclone/body.h>
@@ -32,17 +33,39 @@ namespace siege_lab
             return cyclone::Vector3(_vector.x, _vector.y, _vector.z);
         }
 
+        void InitializeInertia(
+            cyclone::RigidBody& _body,
+            const TrajectorySettings& _settings)
+        {
+            const float inertia =
+                0.4f * _settings.mass *
+                _settings.radius * _settings.radius;
+
+            cyclone::Matrix3 tensor;
+            tensor.setDiagonal(inertia, inertia, inertia);
+
+            _body.setInertiaTensor(tensor);
+        }
+
         void InitializeGhost(
             cyclone::RigidBody& _body,
             const TrajectorySettings& _settings)
         {
-            _body.setMass(1.0f);
+            _body.setMass(_settings.mass);
+            InitializeInertia(_body, _settings);
+
             _body.setPosition(ToCycloneVector(_settings.origin));
             _body.setVelocity(ToCycloneVector(_settings.velocity));
-            _body.setAcceleration(ToCycloneVector(_settings.acceleration));
+            _body.setAcceleration(
+                ToCycloneVector(_settings.acceleration));
+
             _body.setOrientation(1.0f, 0.0f, 0.0f, 0.0f);
             _body.setRotation(0.0f, 0.0f, 0.0f);
-            _body.setDamping(_settings.damping, 1.0f);
+
+            _body.setDamping(
+                _settings.damping, _settings.angular_damping);
+
+            _body.clearAccumulators();
             _body.setCanSleep(false);
             _body.setAwake(true);
             _body.calculateDerivedData();
