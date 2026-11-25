@@ -1,5 +1,6 @@
 #include "orbit_camera.h"
 
+#include <algorithm>
 #include <cmath>
 
 namespace siege_lab
@@ -9,8 +10,8 @@ namespace siege_lab
     {
         m_target = _target;
         m_yaw = _yaw;
-        m_pitch = _pitch;
-        m_radius = _radius;
+        m_pitch = std::clamp(_pitch, 10.0f, 80.0f);
+        m_radius = std::clamp(_radius, 4.0f, 25.0f);
     }
 
     Camera3D OrbitCamera::GetCamera() const
