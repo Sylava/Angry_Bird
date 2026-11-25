@@ -2,6 +2,7 @@
 #include <cmath>
 
 #include "launcher.h"
+#include "orbit_camera.h"
 
 TEST(Launcher, L01_ZeroAzimuthHasNoZComponent)
 {
@@ -49,4 +50,29 @@ TEST(Launcher, L03_ParametersAreClamped)
     EXPECT_FLOAT_EQ(launcher.GetYaw(), 30.0f);
     EXPECT_FLOAT_EQ(launcher.GetPitch(), 5.0f);
     EXPECT_FLOAT_EQ(launcher.GetSpeed(), 22.0f);
+}
+
+TEST(Launcher, L04_AimIsIndependentFromCamera)
+{
+    siege_lab::Launcher launcher(
+        { -8, 1, 0 }, 20.0f, 30.0f, 16.0f);
+
+    siege_lab::OrbitCamera camera(
+        { 0, 1, 0 }, 0.0f, 30.0f, 10.0f);
+
+    Vector3 before = launcher.GetShotSettings().direction;
+
+    camera.RotateKeyboard(1.0f, 0.0f, 120.0f / 90.0f);
+
+    Vector3 after = launcher.GetShotSettings().direction;
+
+    EXPECT_NEAR(camera.GetYaw(), 120.0f, 0.0001f);
+
+    EXPECT_NEAR(before.x, 0.8138f, 0.0001f);
+    EXPECT_NEAR(before.y, 0.5000f, 0.0001f);
+    EXPECT_NEAR(before.z, 0.2962f, 0.0001f);
+
+    EXPECT_NEAR(after.x, before.x, 0.0001f);
+    EXPECT_NEAR(after.y, before.y, 0.0001f);
+    EXPECT_NEAR(after.z, before.z, 0.0001f);
 }
