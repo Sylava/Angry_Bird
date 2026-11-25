@@ -1,13 +1,13 @@
 #ifndef SIEGE_LAB_SCENE_OBJECTS_H_
 #define SIEGE_LAB_SCENE_OBJECTS_H_
 
+#include <array>
+#include <concepts>
 #include <cstddef>
 #include <memory>
-#include <concepts>
-#include <type_traits>
 #include <utility>
-#include <array>
 
+#include "entity_id.h"
 #include "game_entity.h"
 #include "object_pool.h"
 

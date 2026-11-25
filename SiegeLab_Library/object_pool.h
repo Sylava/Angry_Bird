@@ -28,7 +28,7 @@ namespace siege_lab
                 if (!m_objects[i].has_value())
                 {
                     m_objects[i].emplace(std::move(_object));                   
-++m_count;
+                    ++m_count;
 
                     return { static_cast<int>(i), m_generations[i] };
                 }
