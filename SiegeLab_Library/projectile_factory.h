@@ -16,7 +16,12 @@ namespace siege_lab
             SceneObjects<Capacity>& _scene,
             const ShotSettings& _settings)
         {
-            return {};
+            if (_settings.projectile_kind == ProjectileKind::kHeavy)
+            {
+                return _scene.template CreateEntity<HeavyProjectile>();
+            }
+
+            return _scene.template CreateEntity<StandardProjectile>();
         }
     };
 }
