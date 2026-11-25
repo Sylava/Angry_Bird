@@ -18,3 +18,16 @@ TEST(OrbitCamera, C01_CameraPosition)
 	EXPECT_NEAR(camera_b.position.y, 6.0f, 0.001f);
 	EXPECT_NEAR(camera_b.position.z, 0.0f, 0.001f);
 }
+
+TEST(OrbitCamera, C02_ClampsPitchAndRadius)
+{
+	siege_lab::OrbitCamera orbit_a({ 0, 0, 0 }, 0, -20, 1);
+
+	EXPECT_FLOAT_EQ(orbit_a.GetPitch(), 10.0f);
+	EXPECT_FLOAT_EQ(orbit_a.GetRadius(), 4.0f);
+
+	siege_lab::OrbitCamera orbit_b({ 0, 0, 0 }, 0, 100, 50);
+
+	EXPECT_FLOAT_EQ(orbit_b.GetPitch(), 80.0f);
+	EXPECT_FLOAT_EQ(orbit_b.GetRadius(), 25.0f);
+}

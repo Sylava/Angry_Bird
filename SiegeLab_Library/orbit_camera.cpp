@@ -36,4 +36,15 @@ namespace siege_lab
 
         return camera;
     }
+
+    float OrbitCamera::GetPitch() const
+    {
+        return m_pitch;
+    }
+
+    float OrbitCamera::GetRadius() const
+    {
+        return m_radius;
+    }
+
 }

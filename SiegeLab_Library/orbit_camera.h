@@ -20,6 +20,9 @@ namespace siege_lab
             float _pitch, float _radius);
 
         Camera3D GetCamera() const override;
+
+        float GetPitch() const;
+        float GetRadius() const;
     };
 }
 
