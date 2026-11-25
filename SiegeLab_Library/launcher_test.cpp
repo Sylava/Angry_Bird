@@ -40,3 +40,13 @@ TEST(Launcher, L02_DirectionIsNormalized)
     EXPECT_NEAR(norm_a, 1.0f, 0.0001f);
     EXPECT_NEAR(norm_b, 1.0f, 0.0001f);
 }
+
+TEST(Launcher, L03_ParametersAreClamped)
+{
+    siege_lab::Launcher launcher(
+        { -8, 1, 0 }, 45.0f, -10.0f, 30.0f);
+
+    EXPECT_FLOAT_EQ(launcher.GetYaw(), 30.0f);
+    EXPECT_FLOAT_EQ(launcher.GetPitch(), 5.0f);
+    EXPECT_FLOAT_EQ(launcher.GetSpeed(), 22.0f);
+}

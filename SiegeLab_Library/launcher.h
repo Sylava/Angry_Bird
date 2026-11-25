@@ -21,6 +21,10 @@ namespace siege_lab
             float _pitch, float _speed);
 
         ShotSettings GetShotSettings() const;
+
+        float GetYaw() const;
+        float GetPitch() const;
+        float GetSpeed() const;
     };
 }
 

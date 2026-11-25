@@ -32,4 +32,18 @@ namespace siege_lab
 
         return settings;
     }
+    float Launcher::GetYaw() const
+    {
+        return m_yaw;
+    }
+
+    float Launcher::GetPitch() const
+    {
+        return m_pitch;
+    }
+
+    float Launcher::GetSpeed() const
+    {
+        return m_speed;
+    }
 }
