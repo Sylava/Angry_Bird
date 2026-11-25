@@ -49,5 +49,20 @@ namespace siege_lab
 
     void Projectile::Fire(const ShotSettings& _settings)
     {
+        cyclone::RigidBody& body = GetBody();
+
+        body.setPosition(
+            _settings.origin.x,
+            _settings.origin.y,
+            _settings.origin.z);
+
+        body.setVelocity(
+            _settings.direction.x * _settings.speed,
+            _settings.direction.y * _settings.speed,
+            _settings.direction.z * _settings.speed);
+
+        body.setAwake(true);
+        body.calculateDerivedData();
+        m_sphere.calculateInternals();
     }
 }
