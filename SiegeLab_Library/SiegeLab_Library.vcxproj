@@ -152,9 +152,13 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="entity_id.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="game_entity.h" />
+    <ClInclude Include="object_pool.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="scene_objects.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
