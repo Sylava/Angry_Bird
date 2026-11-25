@@ -73,3 +73,15 @@ TEST(Projectile, HeavyProjectileHasCorrectProfile)
     EXPECT_NEAR(projectile.GetBody().getInverseMass(),
         0.5f, 0.0001f);
 }
+
+TEST(Entities, ConcreteCollidersAreLinkedToOwnBodies)
+{
+    siege_lab::StandardProjectile standard;
+    siege_lab::HeavyProjectile heavy;
+
+    EXPECT_EQ(standard.GetSphere().body, &standard.GetBody());
+    EXPECT_EQ(heavy.GetSphere().body, &heavy.GetBody());
+
+    EXPECT_NE(&standard.GetSphere(), &heavy.GetSphere());
+    EXPECT_NE(&standard.GetBody(), &heavy.GetBody());
+}
