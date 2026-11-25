@@ -6,6 +6,7 @@
 #include <concepts>
 #include <type_traits>
 #include <utility>
+#include <array>
 
 #include "game_entity.h"
 #include "object_pool.h"
@@ -17,6 +18,8 @@ namespace siege_lab
     {
     private:
         ObjectPool<std::unique_ptr<GameEntity>, Capacity> m_pool;
+        std::array<EntityId, Capacity> m_pending_removals{};
+        std::size_t m_removal_count = 0;
 
     public:
         template<typename T, typename... Args>
@@ -42,7 +45,20 @@ namespace siege_lab
 
         bool RequestRemoval(EntityId _id)
         {
-            return false;
+            if (Get(_id) == nullptr)
+            {
+                return false;
+            }
+
+            if (m_removal_count >= Capacity)
+            {
+                return false;
+            }
+
+            m_pending_removals[m_removal_count] = _id;
+            ++m_removal_count;
+
+            return true;
         }
 
         std::size_t GetCount() const
