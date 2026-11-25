@@ -49,3 +49,17 @@ TEST(OrbitCamera, C03_YawPeriodicity)
 	EXPECT_NEAR(camera_a.position.z,
 		camera_b.position.z, 0.001f);
 }
+
+TEST(OrbitCamera, C04_KeyboardFrameRateIndependent)
+{
+	siege_lab::OrbitCamera orbit_a({ 0, 0, 0 }, 0, 20, 10);
+	siege_lab::OrbitCamera orbit_b({ 0, 0, 0 }, 0, 20, 10);
+
+	orbit_a.RotateKeyboard(1, 0, 0.5f);
+
+	orbit_b.RotateKeyboard(1, 0, 0.25f);
+	orbit_b.RotateKeyboard(1, 0, 0.25f);
+
+	EXPECT_NEAR(orbit_a.GetYaw(), 45.0f, 0.001f);
+	EXPECT_NEAR(orbit_b.GetYaw(), 45.0f, 0.001f);
+}

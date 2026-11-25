@@ -23,6 +23,10 @@ namespace siege_lab
 
         float GetPitch() const;
         float GetRadius() const;
+        float GetYaw() const;
+
+        void RotateKeyboard(float _yaw_input,
+            float _pitch_input, float _dt);
     };
 }
 

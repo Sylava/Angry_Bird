@@ -48,4 +48,14 @@ namespace siege_lab
         return m_radius;
     }
 
+    float OrbitCamera::GetYaw() const
+    {
+        return m_yaw;
+    }
+
+    void OrbitCamera::RotateKeyboard(float _yaw_input,
+        float _pitch_input, float _dt)
+    {
+    }
+
 }
