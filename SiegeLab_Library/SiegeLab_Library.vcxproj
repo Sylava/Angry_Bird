@@ -166,6 +166,7 @@
     <ClInclude Include="orbit_camera.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="projectile.h" />
+    <ClInclude Include="projectile_factory.h" />
     <ClInclude Include="scene_objects.h" />
     <ClInclude Include="shot_settings.h" />
     <ClInclude Include="standard_projectile.h" />
