@@ -100,7 +100,13 @@ namespace siege_lab
         {
             _body.setInverseMass(0.0f);
             _body.setPosition(ToCycloneVector(_obstacle.position));
-            _body.setOrientation(1.0f, 0.0f, 0.0f, 0.0f);
+
+            _body.setOrientation(
+                _obstacle.orientation.w,
+                _obstacle.orientation.x,
+                _obstacle.orientation.y,
+                _obstacle.orientation.z);
+
             _body.calculateDerivedData();
 
             _box.body = &_body;

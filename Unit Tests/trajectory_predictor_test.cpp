@@ -112,4 +112,30 @@ namespace siege_lab
 		EXPECT_NEAR(result.contact_point.y, 1.0f, 0.005f);
 	}
 
+	TEST(Trajectory, T05_StopsAtRotatedObstacle)
+	{
+		TrajectorySettings settings;
+		settings.origin = { -2.03f, 1.0f, 0.0f };
+		settings.velocity = { 3.0f, 0.0f, 0.0f };
+		settings.acceleration = {};
+		settings.radius = 0.20f;
+		settings.damping = 1.0f;
+
+		TrajectoryObstacle obstacle;
+		obstacle.position = { 0.0f, 1.0f, 0.0f };
+		obstacle.half_size = { 0.25f, 0.25f, 1.0f };
+		obstacle.orientation = { 0.0f, 0.70710678f,
+								0.0f, 0.70710678f };
+		settings.obstacles.push_back(obstacle);
+
+		const TrajectoryPredictor predictor;
+		const TrajectoryResult result = predictor.Predict(settings);
+
+		ASSERT_TRUE(result.has_contact);
+		ASSERT_EQ(result.contact_step, 17);
+		EXPECT_EQ(result.positions.size(), 18u);
+		EXPECT_NEAR(result.positions.back().x, -1.18f, 0.005f);
+		EXPECT_NEAR(result.contact_point.x, -1.0f, 0.005f);
+	}
+
 }

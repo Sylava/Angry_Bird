@@ -11,8 +11,9 @@ namespace siege_lab
 	{
 		Vector3 position = {};
 		Vector3 half_size = {};
+		Quaternion orientation = { 0.0f, 0.0f, 0.0f, 1.0f };
 	};
 
-}  // namespace siege_lab
+}
 
-#endif  // SIEGE_LAB_LIBRARY_TRAJECTORY_OBSTACLE_H_
+#endif
