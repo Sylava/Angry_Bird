@@ -56,6 +56,14 @@ namespace siege_lab
     void OrbitCamera::RotateKeyboard(float _yaw_input,
         float _pitch_input, float _dt)
     {
+        constexpr float kRotationSpeed = 90.0f;
+
+        m_yaw += _yaw_input * kRotationSpeed * _dt;
+        m_pitch += _pitch_input * kRotationSpeed * _dt;
+
+        m_pitch = std::clamp(m_pitch, 10.0f, 80.0f);
     }
+
+
 
 }
