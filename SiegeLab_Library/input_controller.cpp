@@ -6,22 +6,19 @@ namespace siege_lab
 {
     InputSnapshot InputController::Capture() const
     {
-        InputSnapshot input;
+        InputSnapshot input{};
 
-        if (IsKeyDown(KEY_D))
-            input.camera_yaw += 1.0f;
+        input.camera_yaw = IsKeyDown(KEY_RIGHT) - IsKeyDown(KEY_LEFT);
+        input.camera_pitch = IsKeyDown(KEY_UP) - IsKeyDown(KEY_DOWN);
 
-        if (IsKeyDown(KEY_A))
-            input.camera_yaw -= 1.0f;
+        input.launcher_yaw = IsKeyDown(KEY_D) - IsKeyDown(KEY_A);
+        input.launcher_pitch = IsKeyDown(KEY_W) - IsKeyDown(KEY_S);
+        input.launcher_speed = IsKeyDown(KEY_E) - IsKeyDown(KEY_Q);
 
-        if (IsKeyDown(KEY_W))
-            input.camera_pitch += 1.0f;
-
-        if (IsKeyDown(KEY_S))
-            input.camera_pitch -= 1.0f;
+        input.select_standard = IsKeyPressed(KEY_ONE);
+        input.select_heavy = IsKeyPressed(KEY_TWO);
 
         Vector2 mouse_delta = GetMouseDelta();
-
         input.mouse_delta_x = mouse_delta.x;
         input.mouse_delta_y = mouse_delta.y;
         input.mouse_wheel = GetMouseWheelMove();

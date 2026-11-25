@@ -51,6 +51,12 @@
     <ClInclude Include="camera_manager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="shot_settings.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="launcher.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -66,6 +72,9 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="camera_manager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="launcher.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

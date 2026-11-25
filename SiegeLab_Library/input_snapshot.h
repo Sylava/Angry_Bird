@@ -14,6 +14,13 @@ namespace siege_lab
         float mouse_wheel = 0.0f;
 
         bool right_mouse_down = false;
+
+        float launcher_yaw = 0.0f;
+        float launcher_pitch = 0.0f;
+        float launcher_speed = 0.0f;
+
+        bool select_standard = false;
+        bool select_heavy = false;
     };
 }
 
