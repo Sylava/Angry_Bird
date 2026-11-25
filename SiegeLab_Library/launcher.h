@@ -2,9 +2,9 @@
 #define SIEGE_LAB_LAUNCHER_H_
 
 #include "raylib.h"
+
 #include "input_snapshot.h"
 #include "shot_settings.h"
-
 namespace siege_lab
 {
     class Launcher
