@@ -54,9 +54,12 @@ namespace siege_lab
 
     void Launcher::AdjustAim(float _delta_yaw, float _delta_pitch)
     {
+        m_yaw = std::clamp(m_yaw + _delta_yaw, kMinYaw, kMaxYaw);
+        m_pitch = std::clamp(m_pitch + _delta_pitch, kMinPitch, kMaxPitch);
     }
 
     void Launcher::AdjustSpeed(float _delta_speed)
     {
+        m_speed = std::clamp(m_speed + _delta_speed, kMinSpeed, kMaxSpeed);
     }
 }
