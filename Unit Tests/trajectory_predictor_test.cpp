@@ -138,4 +138,25 @@ namespace siege_lab
 		EXPECT_NEAR(result.contact_point.x, -1.0f, 0.005f);
 	}
 
+	TEST(Trajectory, T06_HeavyProjectileGroundContact)
+	{
+		TrajectorySettings settings;
+		settings.origin = { 0.0f, 1.505f, 0.0f };
+		settings.velocity = { 0.0f, -1.0f, 0.0f };
+		settings.acceleration = {};
+		settings.mass = 2.0f;
+		settings.radius = 0.36f;
+		settings.damping = 1.0f;
+		settings.max_steps = 120;
+
+		const TrajectoryPredictor predictor;
+		const TrajectoryResult result = predictor.Predict(settings);
+
+		ASSERT_TRUE(result.has_contact);
+		EXPECT_EQ(result.contact_step, 69);
+		ASSERT_EQ(result.positions.size(), 70u);
+		EXPECT_NEAR(result.positions.back().y, 0.355f, 0.005f);
+		EXPECT_NEAR(result.contact_point.y, 0.0f, 0.005f);
+	}
+
 }
