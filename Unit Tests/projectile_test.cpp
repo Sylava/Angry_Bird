@@ -4,6 +4,8 @@
 #include "standard_projectile.h"
 #include "projectile.h"
 #include "launcher.h"
+#include "cyclone/collide_fine.h"
+#include "cyclone/contacts.h"
 
 namespace
 {
@@ -160,4 +162,31 @@ TEST(Projectile, PR03_FallsUnderGravity)
 
     EXPECT_NEAR(body.getVelocity().y, -9.81f, 0.05f);
     EXPECT_NEAR(body.getPosition().y, 15.01f, 0.10f);
+}
+
+TEST(Projectile, PR04_DoesNotCrossGround)
+{
+    siege_lab::StandardProjectile projectile;
+    cyclone::RigidBody& body = projectile.GetBody();
+    cyclone::CollisionSphere& sphere = projectile.GetSphere();
+
+    sphere.radius = 0.5f;
+
+    body.setPosition(0.0f, 3.0f, 0.0f);
+    body.setVelocity(0.0f, 0.0f, 0.0f);
+    body.setCanSleep(false);
+    body.calculateDerivedData();
+    sphere.calculateInternals();
+
+    constexpr float kFixedDt = 1.0f / 60.0f;
+
+    for (int i = 0; i < 180; ++i)
+    {
+        body.integrate(kFixedDt);
+        sphere.calculateInternals();
+
+        EXPECT_GE(body.getPosition().y, 0.0f);
+    }
+
+    EXPECT_NEAR(body.getPosition().y, 0.5f, 0.1f);
 }
