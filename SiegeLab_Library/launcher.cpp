@@ -1,5 +1,7 @@
 #include "launcher.h"
 
+#include <cmath>
+
 namespace siege_lab
 {
     Launcher::Launcher(Vector3 _origin, float _yaw,
@@ -14,6 +16,20 @@ namespace siege_lab
 
     ShotSettings Launcher::GetShotSettings() const
     {
-        return {};
+        float yaw = m_yaw * DEG2RAD;
+        float pitch = m_pitch * DEG2RAD;
+
+        ShotSettings settings{};
+
+        settings.origin = m_origin;
+
+        settings.direction.x = std::cos(pitch) * std::cos(yaw);
+        settings.direction.y = std::sin(pitch);
+        settings.direction.z = std::cos(pitch) * std::sin(yaw);
+
+        settings.speed = m_speed;
+        settings.projectile_kind = m_projectile_kind;
+
+        return settings;
     }
 }
