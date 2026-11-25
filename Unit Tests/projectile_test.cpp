@@ -103,3 +103,37 @@ TEST(Projectile, PR02_InitialVelocityMatchesAim)
     EXPECT_NEAR(velocity.y, 10.0f, 0.001f);
     EXPECT_NEAR(velocity.z, 0.0f, 0.001f);
 }
+
+TEST(Projectile, FireSetsInitialPosition)
+{
+    siege_lab::Launcher launcher(
+        { -8.0f, 1.0f, 0.0f }, 0.0f, 30.0f, 20.0f);
+
+    siege_lab::StandardProjectile projectile;
+
+    projectile.Fire(launcher.GetShotSettings());
+
+    cyclone::Vector3 position =
+        projectile.GetBody().getPosition();
+
+    EXPECT_NEAR(position.x, -8.0f, 0.0001f);
+    EXPECT_NEAR(position.y, 1.0f, 0.0001f);
+    EXPECT_NEAR(position.z, 0.0f, 0.0001f);
+}
+
+TEST(Projectile, FireUpdatesColliderPosition)
+{
+    siege_lab::Launcher launcher(
+        { -8.0f, 1.0f, 0.0f }, 0.0f, 30.0f, 20.0f);
+
+    siege_lab::StandardProjectile projectile;
+
+    projectile.Fire(launcher.GetShotSettings());
+
+    cyclone::Vector3 position =
+        projectile.GetSphere().getAxis(3);
+
+    EXPECT_NEAR(position.x, -8.0f, 0.0001f);
+    EXPECT_NEAR(position.y, 1.0f, 0.0001f);
+    EXPECT_NEAR(position.z, 0.0f, 0.0001f);
+}
