@@ -23,6 +23,8 @@ namespace siege_lab
 
         static constexpr float kMinSpeed = 8.0f;
         static constexpr float kMaxSpeed = 22.0f;
+
+
     public:
         Launcher(Vector3 _origin, float _yaw,
             float _pitch, float _speed);

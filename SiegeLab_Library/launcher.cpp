@@ -1,5 +1,6 @@
 #include "launcher.h"
 
+#include <algorithm>
 #include <cmath>
 
 namespace siege_lab
@@ -8,9 +9,9 @@ namespace siege_lab
         float _pitch, float _speed)
     {
         m_origin = _origin;
-        m_yaw = _yaw;
-        m_pitch = _pitch;
-        m_speed = _speed;
+        m_yaw = std::clamp(_yaw, kMinYaw, kMaxYaw);
+        m_pitch = std::clamp(_pitch, kMinPitch, kMaxPitch);
+        m_speed = std::clamp(_speed, kMinSpeed, kMaxSpeed);
         m_projectile_kind = ProjectileKind::kStandard;
     }
 
