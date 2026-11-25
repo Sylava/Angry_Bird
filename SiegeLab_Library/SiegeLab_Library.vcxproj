@@ -152,6 +152,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="camera_manager.h" />
     <ClInclude Include="entity_id.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="scene_objects.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="camera_manager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="input_controller.cpp" />
     <ClCompile Include="orbit_camera.cpp" />
