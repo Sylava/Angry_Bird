@@ -2,7 +2,7 @@
 #define SIEGE_LAB_ORBIT_CAMERA_H_
 
 #include "raylib.h"
-
+#include "input_snapshot.h"
 #include "i_camera_controller.h"
 
 namespace siege_lab
@@ -37,6 +37,8 @@ namespace siege_lab
 
         void RotateMouse(float _delta_x, float _delta_y);
         void Zoom(float _wheel_delta);
+
+        void Update(const InputSnapshot& _input, float _dt) override;
     };
 }
 

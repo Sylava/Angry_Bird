@@ -76,6 +76,8 @@ namespace siege_lab
         m_radius = std::clamp(m_radius, kMinRadius, kMaxRadius);
     }
 
-
+    void OrbitCamera::Update(const InputSnapshot& _input, float _dt)
+    {
+    }
 
 }

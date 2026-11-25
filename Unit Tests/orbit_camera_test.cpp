@@ -104,3 +104,33 @@ TEST(OrbitCamera, ZoomClampsRadius)
 	orbit.Zoom(-100.0f);
 	EXPECT_FLOAT_EQ(orbit.GetRadius(), 25.0f);
 }
+
+TEST(OrbitCamera, UpdateAppliesKeyboardAndZoom)
+{
+	siege_lab::OrbitCamera orbit({ 0, 0, 0 }, 0, 20, 10);
+	siege_lab::InputSnapshot input;
+
+	input.camera_yaw = 1.0f;
+	input.mouse_wheel = 2.0f;
+
+	orbit.Update(input, 0.5f);
+
+	EXPECT_FLOAT_EQ(orbit.GetYaw(), 45.0f);
+	EXPECT_FLOAT_EQ(orbit.GetRadius(), 8.0f);
+}
+
+TEST(OrbitCamera, MouseRotationRequiresRightClick)
+{
+	siege_lab::OrbitCamera orbit({ 0, 0, 0 }, 0, 20, 10);
+	siege_lab::InputSnapshot input;
+
+	input.mouse_delta_x = 40.0f;
+
+	orbit.Update(input, 0.1f);
+	EXPECT_FLOAT_EQ(orbit.GetYaw(), 0.0f);
+
+	input.right_mouse_down = true;
+
+	orbit.Update(input, 0.1f);
+	EXPECT_FLOAT_EQ(orbit.GetYaw(), 10.0f);
+}

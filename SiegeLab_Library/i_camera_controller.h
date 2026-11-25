@@ -2,6 +2,7 @@
 #define SIEGE_LAB_I_CAMERA_CONTROLLER_H_
 
 #include "raylib.h"
+#include "input_snapshot.h"
 
 namespace siege_lab
 {
@@ -11,6 +12,8 @@ namespace siege_lab
         virtual ~ICameraController() = default;
 
         virtual Camera3D GetCamera() const = 0;
+
+        virtual void Update(const InputSnapshot& _input, float _dt) = 0;
     };
 }
 
