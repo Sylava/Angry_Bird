@@ -107,6 +107,7 @@
     <ClCompile Include="game_entity_test.cpp" />
     <ClCompile Include="object_pool_test.cpp" />
     <ClCompile Include="orbit_camera_test.cpp" />
+    <ClCompile Include="projectile_test.cpp" />
     <ClCompile Include="scene_objects_test.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="pch.cpp">
