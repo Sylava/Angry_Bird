@@ -12,8 +12,12 @@ namespace siege_lab
 	struct TrajectoryResult
 	{
 		std::vector<Vector3> positions;
+
+		bool has_contact = false;
+		Vector3 contact_point = {};
+		int contact_step = -1;
 	};
 
-}  // namespace siege_lab
+}
 
-#endif  // SIEGE_LAB_LIBRARY_TRAJECTORY_RESULT_H_
+#endif

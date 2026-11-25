@@ -11,8 +11,13 @@ namespace siege_lab
 	{
 		Vector3 origin = {};
 		Vector3 velocity = {};
-		float   radius = 0.28f;
-		float   fixed_dt = 1.0f / 60.0f;
+		Vector3 acceleration = { 0.0f, -9.81f, 0.0f };
+
+		float radius = 0.28f;
+		float fixed_dt = 1.0f / 60.0f;
+		float damping = 1.0f;
+
+		int max_steps = 120;
 	};
 
 }  // namespace siege_lab
