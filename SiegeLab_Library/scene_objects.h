@@ -5,6 +5,7 @@
 #include <memory>
 #include <concepts>
 #include <type_traits>
+#include <utility>
 
 #include "game_entity.h"
 #include "object_pool.h"
@@ -18,21 +19,15 @@ namespace siege_lab
         ObjectPool<std::unique_ptr<GameEntity>, Capacity> m_pool;
 
     public:
-        template<typename T>
-            requires std::derived_from<T, GameEntity> &&
-        (!std::is_abstract_v<T>)
-            EntityId CreateEntity()
-        {
-            return m_pool.Create(std::make_unique<T>());
-        }
         template<typename T, typename... Args>
-            requires std::derived_from<T, GameEntity> &&
-        (!std::is_abstract_v<T>) &&
-            (sizeof...(Args) > 0)
-            EntityId CreateEntity(Args... _args)
+            requires std::derived_from<T, GameEntity>&&
+        std::constructible_from<T, Args...>
+            EntityId CreateEntity(Args&&... _args)
         {
-            return {};
+            return m_pool.Create(
+                std::make_unique<T>(std::forward<Args>(_args)...));
         }
+
         GameEntity* Get(EntityId _id)
         {
             auto entity = m_pool.Get(_id);
