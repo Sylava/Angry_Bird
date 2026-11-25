@@ -8,7 +8,7 @@ namespace siege_lab
     {
         InputSnapshot input;
 
-        if (IsKeyDown(KEY_D  ))
+        if (IsKeyDown(KEY_D))
             input.camera_yaw += 1.0f;
 
         if (IsKeyDown(KEY_A))

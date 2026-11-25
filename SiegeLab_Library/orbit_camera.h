@@ -2,8 +2,10 @@
 #define SIEGE_LAB_ORBIT_CAMERA_H_
 
 #include "raylib.h"
-#include "input_snapshot.h"
+
 #include "i_camera_controller.h"
+#include "input_snapshot.h"
+
 
 namespace siege_lab
 {

@@ -87,5 +87,4 @@ namespace siege_lab
 
         Zoom(_input.mouse_wheel);
     }
-
 }
