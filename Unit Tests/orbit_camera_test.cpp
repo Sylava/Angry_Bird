@@ -31,3 +31,21 @@ TEST(OrbitCamera, C02_ClampsPitchAndRadius)
 	EXPECT_FLOAT_EQ(orbit_b.GetPitch(), 80.0f);
 	EXPECT_FLOAT_EQ(orbit_b.GetRadius(), 25.0f);
 }
+
+TEST(OrbitCamera, C03_YawPeriodicity)
+{
+	siege_lab::OrbitCamera orbit_a({ 0, 0, 0 }, 30, 20, 10);
+	siege_lab::OrbitCamera orbit_b({ 0, 0, 0 }, 390, 20, 10);
+
+	Camera3D camera_a = orbit_a.GetCamera();
+	Camera3D camera_b = orbit_b.GetCamera();
+
+	EXPECT_NEAR(camera_a.position.x,
+		camera_b.position.x, 0.001f);
+
+	EXPECT_NEAR(camera_a.position.y,
+		camera_b.position.y, 0.001f);
+
+	EXPECT_NEAR(camera_a.position.z,
+		camera_b.position.z, 0.001f);
+}
