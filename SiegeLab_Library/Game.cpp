@@ -35,6 +35,18 @@ namespace siege_lab
 
         m_camera_manager.Update(input, dt);
         m_launcher.Update(input, dt);
+
+        m_shot_controller.Update(
+            input, m_launcher.GetShotSettings(), m_scene_objects);
+    }
+
+    void Game::DrawEntities()
+    {
+        m_scene_objects.ForEach(
+            [](GameEntity& _entity)
+            {
+                _entity.Draw();
+            });
     }
 
     void Game::Draw()
@@ -48,6 +60,8 @@ namespace siege_lab
         DrawGrid(20, 1.0f);
         DrawCube({ 0, 1, 0 }, 2, 2, 2, RED);
         DrawCubeWires({ 0, 1, 0 }, 2, 2, 2, BLACK);
+
+        DrawEntities();
 
         EndMode3D();
 
@@ -91,5 +105,12 @@ namespace siege_lab
             settings.projectile_kind == ProjectileKind::kStandard
             ? "Projectile: Standard" : "Projectile: Heavy",
             10, 115, 20, BLACK);
+
+        DrawText(TextFormat("Ammo: %d", m_shot_controller.GetAmmo()),
+            10, 140, 20, BLACK);
+
+        DrawText(TextFormat("Entities: %d",
+            static_cast<int>(m_scene_objects.GetCount())),
+            10, 165, 20, BLACK);
     }
 }

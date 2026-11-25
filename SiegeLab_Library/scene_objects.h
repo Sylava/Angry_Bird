@@ -94,6 +94,16 @@ namespace siege_lab
         {
             return m_pool.GetCount();
         }
+
+        template<typename Func>
+        void ForEach(Func _func)
+        {
+            m_pool.ForEach(
+                [&_func](std::unique_ptr<GameEntity>& _entity)
+                {
+                    _func(*_entity);
+                });
+        }
     };
 }
 
