@@ -29,6 +29,17 @@ namespace siege_lab
             const ShotSettings& _settings,
             SceneObjects<Capacity>& _scene)
         {
+            if (!_input.fire_pressed || m_ammo <= 0)
+            {
+                return;
+            }
+
+            EntityId id = ProjectileFactory::Create(_scene, _settings);
+
+            if (id.slot >= 0)
+            {
+                --m_ammo;
+            }
         }
     };
 }
