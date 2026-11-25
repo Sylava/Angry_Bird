@@ -3,6 +3,7 @@
 #include "heavy_projectile.h"
 #include "standard_projectile.h"
 #include "projectile.h"
+#include "launcher.h"
 
 namespace
 {
@@ -84,4 +85,21 @@ TEST(Entities, ConcreteCollidersAreLinkedToOwnBodies)
 
     EXPECT_NE(&standard.GetSphere(), &heavy.GetSphere());
     EXPECT_NE(&standard.GetBody(), &heavy.GetBody());
+}
+
+TEST(Projectile, PR02_InitialVelocityMatchesAim)
+{
+    siege_lab::Launcher launcher(
+        { -8.0f, 1.0f, 0.0f }, 0.0f, 30.0f, 20.0f);
+
+    siege_lab::StandardProjectile projectile;
+
+    projectile.Fire(launcher.GetShotSettings());
+
+    cyclone::Vector3 velocity =
+        projectile.GetBody().getVelocity();
+
+    EXPECT_NEAR(velocity.x, 17.3205f, 0.001f);
+    EXPECT_NEAR(velocity.y, 10.0f, 0.001f);
+    EXPECT_NEAR(velocity.z, 0.0f, 0.001f);
 }

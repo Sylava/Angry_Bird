@@ -5,6 +5,7 @@
 
 #include "cyclone/collide_fine.h"
 #include "game_entity.h"
+#include "shot_settings.h"
 
 namespace siege_lab
 {
@@ -23,6 +24,8 @@ namespace siege_lab
         cyclone::CollisionSphere& GetSphere();
 
         void Draw() override;
+
+        void Fire(const ShotSettings& _settings);
     };
 }
 

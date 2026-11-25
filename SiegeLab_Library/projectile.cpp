@@ -46,4 +46,8 @@ namespace siege_lab
 
         DrawSphere(center, m_sphere.radius, GetColor());
     }
+
+    void Projectile::Fire(const ShotSettings& _settings)
+    {
+    }
 }
