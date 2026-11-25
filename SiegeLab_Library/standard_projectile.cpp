@@ -7,6 +7,13 @@ namespace siege_lab
         ConfigurePhysics(kMass, kRadius);
     }
 
+    StandardProjectile::StandardProjectile(
+        const ShotSettings& _settings)
+        : StandardProjectile()
+    {
+        Fire(_settings);
+    }
+
     Color StandardProjectile::GetColor() const
     {
         return RED;

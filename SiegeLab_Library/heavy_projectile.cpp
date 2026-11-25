@@ -7,6 +7,15 @@ namespace siege_lab
         ConfigurePhysics(kMass, kRadius);
     }
 
+    HeavyProjectile::HeavyProjectile(
+        const ShotSettings& _settings)
+        : HeavyProjectile()
+    {
+        Fire(_settings);
+    }
+
+
+
     Color HeavyProjectile::GetColor() const
     {
         return DARKGRAY;

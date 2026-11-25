@@ -16,6 +16,8 @@ namespace siege_lab
 
     public:
         HeavyProjectile();
+
+        explicit HeavyProjectile(const ShotSettings& _settings);
         
     };
 }

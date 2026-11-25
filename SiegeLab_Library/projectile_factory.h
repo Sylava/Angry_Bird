@@ -18,10 +18,10 @@ namespace siege_lab
         {
             if (_settings.projectile_kind == ProjectileKind::kHeavy)
             {
-                return _scene.template CreateEntity<HeavyProjectile>();
+                return _scene.template CreateEntity<HeavyProjectile>(_settings);
             }
 
-            return _scene.template CreateEntity<StandardProjectile>();
+            return _scene.template CreateEntity<StandardProjectile>(_settings);
         }
     };
 }

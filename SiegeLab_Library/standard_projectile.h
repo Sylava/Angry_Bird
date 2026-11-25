@@ -16,6 +16,7 @@ namespace siege_lab
 
     public:
         StandardProjectile();
+        explicit StandardProjectile(const ShotSettings& _settings);
         
     };
 }
