@@ -164,6 +164,7 @@
     <ClInclude Include="orbit_camera.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="scene_objects.h" />
+    <ClInclude Include="trajectory_obstacle.h" />
     <ClInclude Include="trajectory_predictor.h" />
     <ClInclude Include="trajectory_result.h" />
     <ClInclude Include="trajectory_settings.h" />

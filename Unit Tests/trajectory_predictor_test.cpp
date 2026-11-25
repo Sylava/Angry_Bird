@@ -4,6 +4,8 @@
 #include "trajectory_predictor.h"
 #include "trajectory_result.h"
 #include "trajectory_settings.h"
+#include <cyclone/body.h>
+#include "trajectory_obstacle.h"
 
 namespace siege_lab
 {
@@ -46,6 +48,68 @@ namespace siege_lab
 		EXPECT_EQ(result.contact_step, 61);
 		EXPECT_NEAR(result.positions.back().y, 0.4933f, 0.005f);
 		EXPECT_NEAR(result.contact_point.y, 0.0f, 0.005f);
+	}
+
+	void InitializeWitness(cyclone::RigidBody& _body)
+	{
+		_body.setMass(1.0f);
+		_body.setPosition(-8.0f, 1.0f, 0.0f);
+		_body.setVelocity(12.0f, 5.0f, 0.0f);
+		_body.calculateDerivedData();
+	}
+
+	TEST(Trajectory, T03_DoesNotModifyRealBody)
+	{
+		cyclone::RigidBody real_body;
+		InitializeWitness(real_body);
+
+		TrajectorySettings settings;
+		settings.origin = { -8.0f, 1.0f, 0.0f };
+		settings.velocity = { 12.0f, 5.0f, 0.0f };
+		settings.max_steps = 20;
+
+		const TrajectoryPredictor predictor;
+		const TrajectoryResult result = predictor.Predict(settings);
+
+		EXPECT_EQ(result.positions.size(), 21u);
+		EXPECT_FALSE(result.has_contact);
+
+		const cyclone::Vector3 position = real_body.getPosition();
+		const cyclone::Vector3 velocity = real_body.getVelocity();
+
+		EXPECT_FLOAT_EQ(position.x, -8.0f);
+		EXPECT_FLOAT_EQ(position.y, 1.0f);
+		EXPECT_FLOAT_EQ(position.z, 0.0f);
+
+		EXPECT_FLOAT_EQ(velocity.x, 12.0f);
+		EXPECT_FLOAT_EQ(velocity.y, 5.0f);
+		EXPECT_FLOAT_EQ(velocity.z, 0.0f);
+	}
+
+	TEST(Trajectory, T04_StopsAtObstacleContact)
+	{
+		TrajectorySettings settings;
+		settings.origin = { -2.03f, 1.0f, 0.0f };
+		settings.velocity = { 3.0f, 0.0f, 0.0f };
+		settings.acceleration = {};
+		settings.radius = 0.20f;
+		settings.damping = 1.0f;
+
+		TrajectoryObstacle obstacle;
+		obstacle.position = { 0.0f, 1.0f, 0.0f };
+		obstacle.half_size = { 0.25f, 0.25f, 0.25f };
+		settings.obstacles.push_back(obstacle);
+
+		const TrajectoryPredictor predictor;
+		const TrajectoryResult result = predictor.Predict(settings);
+
+		ASSERT_TRUE(result.has_contact);
+		ASSERT_EQ(result.positions.size(), 33u);
+
+		EXPECT_EQ(result.contact_step, 32);
+		EXPECT_NEAR(result.positions.back().x, -0.43f, 0.005f);
+		EXPECT_NEAR(result.contact_point.x, -0.25f, 0.005f);
+		EXPECT_NEAR(result.contact_point.y, 1.0f, 0.005f);
 	}
 
 }

@@ -2,7 +2,11 @@
 #ifndef SIEGE_LAB_LIBRARY_TRAJECTORY_SETTINGS_H_
 #define SIEGE_LAB_LIBRARY_TRAJECTORY_SETTINGS_H_
 
+#include <vector>
+
 #include <raylib.h>
+
+#include "trajectory_obstacle.h"
 
 namespace siege_lab
 {
@@ -18,8 +22,10 @@ namespace siege_lab
 		float damping = 1.0f;
 
 		int max_steps = 120;
+
+		std::vector<TrajectoryObstacle> obstacles;
 	};
 
-}  // namespace siege_lab
+}
 
-#endif  // SIEGE_LAB_LIBRARY_TRAJECTORY_SETTINGS_H_
+#endif
