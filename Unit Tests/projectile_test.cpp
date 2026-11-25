@@ -1,5 +1,7 @@
 #include "pch.h"
 
+#include "heavy_projectile.h"
+#include "standard_projectile.h"
 #include "projectile.h"
 
 namespace
@@ -48,4 +50,22 @@ TEST(Projectile, ConfiguresGravity)
     EXPECT_NEAR(acceleration.x, 0.0f, 0.0001f);
     EXPECT_NEAR(acceleration.y, -9.81f, 0.0001f);
     EXPECT_NEAR(acceleration.z, 0.0f, 0.0001f);
+}
+
+TEST(Projectile, StandardProjectileHasCorrectProfile)
+{
+    siege_lab::StandardProjectile projectile;
+
+    EXPECT_NEAR(projectile.GetSphere().radius, 0.28f, 0.0001f);
+    EXPECT_NEAR(projectile.GetBody().getInverseMass(),
+        1.0f, 0.0001f);
+}
+
+TEST(Projectile, HeavyProjectileHasCorrectProfile)
+{
+    siege_lab::HeavyProjectile projectile;
+
+    EXPECT_NEAR(projectile.GetSphere().radius, 0.36f, 0.0001f);
+    EXPECT_NEAR(projectile.GetBody().getInverseMass(),
+        0.5f, 0.0001f);
 }

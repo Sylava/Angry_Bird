@@ -157,6 +157,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="game_entity.h" />
+    <ClInclude Include="heavy_projectile.h" />
     <ClInclude Include="input_controller.h" />
     <ClInclude Include="input_snapshot.h" />
     <ClInclude Include="i_camera_controller.h" />
@@ -167,10 +168,12 @@
     <ClInclude Include="projectile.h" />
     <ClInclude Include="scene_objects.h" />
     <ClInclude Include="shot_settings.h" />
+    <ClInclude Include="standard_projectile.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera_manager.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="heavy_projectile.cpp" />
     <ClCompile Include="input_controller.cpp" />
     <ClCompile Include="launcher.cpp" />
     <ClCompile Include="orbit_camera.cpp" />
@@ -181,6 +184,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="projectile.cpp" />
+    <ClCompile Include="standard_projectile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cyclone\Cyclone.vcxproj">
