@@ -78,6 +78,14 @@ namespace siege_lab
 
     void OrbitCamera::Update(const InputSnapshot& _input, float _dt)
     {
+        RotateKeyboard(_input.camera_yaw, _input.camera_pitch, _dt);
+
+        if (_input.right_mouse_down)
+        {
+            RotateMouse(_input.mouse_delta_x, _input.mouse_delta_y);
+        }
+
+        Zoom(_input.mouse_wheel);
     }
 
 }
