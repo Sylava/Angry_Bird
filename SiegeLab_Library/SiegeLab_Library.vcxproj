@@ -168,6 +168,10 @@
     <ClInclude Include="projectile.h" />
     <ClInclude Include="projectile_factory.h" />
     <ClInclude Include="scene_objects.h" />
+    <ClInclude Include="trajectory_obstacle.h" />
+    <ClInclude Include="trajectory_predictor.h" />
+    <ClInclude Include="trajectory_result.h" />
+    <ClInclude Include="trajectory_settings.h" />
     <ClInclude Include="shot_controller.h" />
     <ClInclude Include="shot_settings.h" />
     <ClInclude Include="standard_projectile.h" />
@@ -185,6 +189,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="trajectory_predictor.cpp" />
     <ClCompile Include="projectile.cpp" />
     <ClCompile Include="standard_projectile.cpp" />
   </ItemGroup>

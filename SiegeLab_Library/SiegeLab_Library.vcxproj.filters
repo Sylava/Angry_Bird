@@ -51,6 +51,16 @@
     <ClInclude Include="camera_manager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="trajectory_result.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="trajectory_predictor.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="trajectory_settings.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="trajectory_obstacle.h">
     <ClInclude Include="shot_settings.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
@@ -89,6 +99,7 @@
     <ClCompile Include="camera_manager.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="trajectory_predictor.cpp">
     <ClCompile Include="launcher.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>

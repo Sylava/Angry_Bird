@@ -1,10 +1,18 @@
 #ifndef SIEGE_LAB_GAME_ENTITY_H_
 #define SIEGE_LAB_GAME_ENTITY_H_
+#include "raylib.h"
 
 #include "cyclone/body.h"
 
 namespace siege_lab
 {
+    struct CollisionContact
+    {
+        Vector3 point;
+        Vector3 normal;
+        float penetration;
+    };
+
     class GameEntity
     {
     private:
