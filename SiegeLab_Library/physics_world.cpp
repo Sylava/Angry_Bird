@@ -4,15 +4,6 @@
 
 namespace siege_lab
 {
-    void PhysicsWorld::RegisterSphere(
-        EntityId _id,
-        cyclone::RigidBody& _body,
-        cyclone::CollisionSphere& _sphere)
-    {
-        m_registrations.push_back(
-            { _id, &_body, &_sphere, ShapeKind::kSphere });
-    }
-
     void PhysicsWorld::UnregisterObject(EntityId _id)
     {
         std::erase_if(
@@ -120,5 +111,31 @@ namespace siege_lab
             registration.body->calculateDerivedData();
             registration.collider->calculateInternals();
         }
+    }
+
+    void PhysicsWorld::RegisterSphere(
+        EntityId _id,
+        cyclone::RigidBody& _body,
+        cyclone::CollisionSphere& _sphere)
+    {
+        RegisterObject(_id, _body, _sphere, ShapeKind::kSphere);
+    }
+
+    void PhysicsWorld::RegisterBox(
+        EntityId _id,
+        cyclone::RigidBody& _body,
+        cyclone::CollisionBox& _box)
+    {
+        RegisterObject(_id, _body, _box, ShapeKind::kBox);
+    }
+
+    void PhysicsWorld::RegisterObject(
+        EntityId _id,
+        cyclone::RigidBody& _body,
+        cyclone::CollisionPrimitive& _collider,
+        ShapeKind _kind)
+    {
+        m_registrations.push_back(
+            { _id, &_body, &_collider, _kind });
     }
 }  // namespace siege_lab

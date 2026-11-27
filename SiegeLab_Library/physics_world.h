@@ -28,16 +28,24 @@ namespace siege_lab
 
         void DetectContacts();
         void DetectSphereContacts(const PhysicsRegistration& _registration);
-
-
         void ResolveContacts(float _dt);
         void RefreshColliders();
+
+        void RegisterObject(
+            EntityId _id,
+            cyclone::RigidBody& _body,
+            cyclone::CollisionPrimitive& _collider,
+            ShapeKind _kind);
 
     public:
         void RegisterSphere(
             EntityId _id,
             cyclone::RigidBody& _body,
             cyclone::CollisionSphere& _sphere);
+        void RegisterBox(
+            EntityId _id,
+            cyclone::RigidBody& _body,
+            cyclone::CollisionBox& _box);
 
         void UnregisterObject(EntityId _id);
         std::size_t GetRegistrationCount() const;

@@ -135,4 +135,28 @@ namespace siege_lab
 
         EXPECT_EQ(world.GetContactCount(), 0u);
     }
+
+    TEST(PhysicsWorld, RegisterBorrowsBox)
+    {
+        cyclone::RigidBody body;
+        cyclone::CollisionBox box;
+
+        box.body = &body;
+        box.halfSize = cyclone::Vector3(0.5f, 0.5f, 0.5f);
+
+        PhysicsWorld world;
+        const EntityId id{ 0, 1 };
+
+        EXPECT_EQ(world.GetRegistrationCount(), 0u);
+
+        world.RegisterBox(id, body, box);
+
+        EXPECT_EQ(world.GetRegistrationCount(), 1u);
+        EXPECT_EQ(box.body, &body);
+
+        world.UnregisterObject(id);
+
+        EXPECT_EQ(world.GetRegistrationCount(), 0u);
+        EXPECT_EQ(box.body, &body);
+    }
 }  // namespace siege_lab
