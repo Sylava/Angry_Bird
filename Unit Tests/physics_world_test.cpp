@@ -75,6 +75,23 @@ namespace siege_lab
         _box.calculateInternals();
     }
 
+    void InitializeCollisionSphere(
+        StandardProjectile& _projectile,
+        float _position_x)
+    {
+        cyclone::RigidBody& body = _projectile.GetBody();
+
+        body.setPosition(_position_x, 2.0f, 0.0f);
+        body.setVelocity(0.0f, 0.0f, 0.0f);
+        body.setAcceleration(0.0f, 0.0f, 0.0f);
+        body.setCanSleep(false);
+        body.setAwake(true);
+        body.calculateDerivedData();
+
+        _projectile.GetSphere().radius = 0.5f;
+        _projectile.GetSphere().calculateInternals();
+    }
+
     TEST(PhysicsWorld, RegisterBorrowsObject)
     {
         SceneObjects<1> scene;
@@ -209,5 +226,32 @@ namespace siege_lab
         EXPECT_GE(world.GetContactCount(), 1u);
         EXPECT_GT(body.getPosition().y, 0.45f);
         EXPECT_NEAR(body.getPosition().y, 0.5f, 0.01f);
+    }
+
+    TEST(PhysicsWorld, DetectsSphereSphereContact)
+    {
+        StandardProjectile first;
+        StandardProjectile second;
+
+        InitializeCollisionSphere(first, -0.45f);
+        InitializeCollisionSphere(second, 0.45f);
+
+        PhysicsWorld world;
+
+        world.RegisterSphere(
+            { 0, 1 }, first.GetBody(), first.GetSphere());
+        world.RegisterSphere(
+            { 1, 1 }, second.GetBody(), second.GetSphere());
+
+        constexpr float kFixedDt = 1.0f / 60.0f;
+        world.Step(kFixedDt);
+
+        EXPECT_EQ(world.GetContactCount(), 1u);
+
+        const float distance =
+            second.GetBody().getPosition().x -
+            first.GetBody().getPosition().x;
+
+        EXPECT_NEAR(distance, 1.0f, 0.01f);
     }
 }  // namespace siege_lab

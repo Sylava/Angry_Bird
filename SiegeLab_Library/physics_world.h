@@ -33,12 +33,21 @@ namespace siege_lab
         void RefreshColliders();
         void ResetContactData();
         void DetectPlaneContacts();
+        void DetectObjectContacts();
+
+        void DetectObjectPair(
+            const PhysicsRegistration& _first,
+            const PhysicsRegistration& _second);
+        void DetectSphereSphere(
+            const PhysicsRegistration& _first,
+            const PhysicsRegistration& _second);
 
         void RegisterObject(
             EntityId _id,
             cyclone::RigidBody& _body,
             cyclone::CollisionPrimitive& _collider,
             ShapeKind _kind);
+
 
     public:
         void RegisterSphere(

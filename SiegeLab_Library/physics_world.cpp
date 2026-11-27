@@ -85,10 +85,65 @@ namespace siege_lab
         }
     }
 
+    void PhysicsWorld::DetectObjectContacts()
+    {
+        for (std::size_t i = 0; i < m_registrations.size(); ++i)
+        {
+            for (std::size_t j = i + 1; j < m_registrations.size(); ++j)
+            {
+                if (m_collision_data.contactsLeft <= 0)
+                {
+                    return;
+                }
+
+                DetectObjectPair(m_registrations[i], m_registrations[j]);
+            }
+        }
+    }
+
+    void PhysicsWorld::DetectObjectPair(
+        const PhysicsRegistration& _first,
+        const PhysicsRegistration& _second)
+    {
+        if (_first.body == _second.body)
+        {
+            return;
+        }
+
+        if (_first.body->getInverseMass() <= 0.0f &&
+            _second.body->getInverseMass() <= 0.0f)
+        {
+            return;
+        }
+
+        if (_first.kind == ShapeKind::kSphere &&
+            _second.kind == ShapeKind::kSphere)
+        {
+            DetectSphereSphere(_first, _second);
+        }
+    }
+
+    void PhysicsWorld::DetectSphereSphere(
+        const PhysicsRegistration& _first,
+        const PhysicsRegistration& _second)
+    {
+        const cyclone::CollisionSphere& first =
+            static_cast<const cyclone::CollisionSphere&>(
+                *_first.collider);
+
+        const cyclone::CollisionSphere& second =
+            static_cast<const cyclone::CollisionSphere&>(
+                *_second.collider);
+
+        cyclone::CollisionDetector::sphereAndSphere(
+            first, second, &m_collision_data);
+    }
+
     void PhysicsWorld::DetectContacts()
     {
         ResetContactData();
         DetectPlaneContacts();
+        DetectObjectContacts();
     }
 
     void PhysicsWorld::ResolveContacts(float _dt)
