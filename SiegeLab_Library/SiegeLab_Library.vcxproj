@@ -170,11 +170,13 @@
     <ClInclude Include="scene_objects.h" />
     <ClInclude Include="trajectory_obstacle.h" />
     <ClInclude Include="trajectory_predictor.h" />
+    <ClInclude Include="trajectory_renderer.h" />
     <ClInclude Include="trajectory_result.h" />
     <ClInclude Include="trajectory_settings.h" />
     <ClInclude Include="shot_controller.h" />
     <ClInclude Include="shot_settings.h" />
     <ClInclude Include="standard_projectile.h" />
+    <ClInclude Include="trajectory_settings_builder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera_manager.cpp" />
@@ -192,6 +194,8 @@
     <ClCompile Include="trajectory_predictor.cpp" />
     <ClCompile Include="projectile.cpp" />
     <ClCompile Include="standard_projectile.cpp" />
+    <ClCompile Include="trajectory_renderer.cpp" />
+    <ClCompile Include="trajectory_settings_builder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cyclone\Cyclone.vcxproj">
