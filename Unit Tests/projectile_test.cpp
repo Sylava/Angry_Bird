@@ -6,6 +6,7 @@
 #include "launcher.h"
 #include "cyclone/collide_fine.h"
 #include "cyclone/contacts.h"
+#include "physics_world.h"
 
 namespace
 {
@@ -178,13 +179,20 @@ TEST(Projectile, PR04_DoesNotCrossGround)
     body.calculateDerivedData();
     sphere.calculateInternals();
 
+    siege_lab::PhysicsWorld world;
+
+    cyclone::CollisionPlane ground;
+    ground.direction = cyclone::Vector3(0.0f, 1.0f, 0.0f);
+    ground.offset = 0.0f;
+
+    world.RegisterSphere({ 0, 1 }, body, sphere);
+    world.RegisterPlane(ground);
+
     constexpr float kFixedDt = 1.0f / 60.0f;
 
     for (int i = 0; i < 180; ++i)
     {
-        body.integrate(kFixedDt);
-        sphere.calculateInternals();
-
+        world.Step(kFixedDt);
         EXPECT_GE(body.getPosition().y, 0.0f);
     }
 

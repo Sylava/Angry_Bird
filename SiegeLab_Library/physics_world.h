@@ -4,19 +4,34 @@
 
 #include <cstddef>
 #include <vector>
+#include <array>
 
 #include "cyclone/body.h"
 #include "cyclone/collide_fine.h"
-
 #include "entity_id.h"
 #include "physics_registration.h"
+#include "cyclone/contacts.h"
 
 namespace siege_lab
 {
     class PhysicsWorld
     {
     private:
+        static constexpr unsigned kMaxContacts = 256;
+        static constexpr unsigned kSolverIterations = 100;
+
         std::vector<PhysicsRegistration> m_registrations;
+        std::vector<cyclone::CollisionPlane> m_planes;
+        std::array<cyclone::Contact, kMaxContacts> m_contacts{};
+        cyclone::CollisionData m_collision_data{};
+        cyclone::ContactResolver m_resolver{ kSolverIterations };
+
+        void DetectContacts();
+        void DetectSphereContacts(const PhysicsRegistration& _registration);
+
+
+        void ResolveContacts(float _dt);
+        void RefreshColliders();
 
     public:
         void RegisterSphere(
@@ -27,6 +42,9 @@ namespace siege_lab
         void UnregisterObject(EntityId _id);
         std::size_t GetRegistrationCount() const;
         void Step(float _dt);
+        void RegisterPlane(const cyclone::CollisionPlane& _plane);
+
+        unsigned GetContactCount() const;
     };
 }  // namespace siege_lab
 

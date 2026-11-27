@@ -34,6 +34,21 @@ namespace siege_lab
         EXPECT_NEAR(_actual.z, _expected.z, kTolerance);
     }
 
+    void InitializeGroundContact(StandardProjectile& _projectile)
+    {
+        cyclone::RigidBody& body = _projectile.GetBody();
+
+        body.setPosition(0.0f, 0.45f, 0.0f);
+        body.setVelocity(0.0f, 0.0f, 0.0f);
+        body.setAcceleration(0.0f, 0.0f, 0.0f);
+        body.setCanSleep(false);
+        body.setAwake(true);
+        body.calculateDerivedData();
+
+        _projectile.GetSphere().radius = 0.5f;
+        _projectile.GetSphere().calculateInternals();
+    }
+
     TEST(PhysicsWorld, RegisterBorrowsObject)
     {
         SceneObjects<1> scene;
@@ -91,5 +106,33 @@ namespace siege_lab
             reference.GetBody().getVelocity());
         EXPECT_NEAR(simulated.GetBody().getVelocity().y,
             -9.81f, 0.0001f);
+    }
+
+    TEST(PhysicsWorld, RegisteredColliderIsUsed)
+    {
+        PhysicsWorld world;
+        StandardProjectile projectile;
+
+        InitializeGroundContact(projectile);
+
+        cyclone::CollisionPlane ground;
+        ground.direction = cyclone::Vector3(0.0f, 1.0f, 0.0f);
+        ground.offset = 0.0f;
+
+        const EntityId id{ 0, 1 };
+        constexpr float kFixedDt = 1.0f / 60.0f;
+
+        world.RegisterSphere(
+            id, projectile.GetBody(), projectile.GetSphere());
+        world.RegisterPlane(ground);
+
+        world.Step(kFixedDt);
+
+        EXPECT_GE(world.GetContactCount(), 1u);
+
+        world.UnregisterObject(id);
+        world.Step(kFixedDt);
+
+        EXPECT_EQ(world.GetContactCount(), 0u);
     }
 }  // namespace siege_lab
