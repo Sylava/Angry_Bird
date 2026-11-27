@@ -1,7 +1,8 @@
 #include "pch.h"
 
 #include "scene_objects.h"
-
+#include "heavy_projectile.h"
+#include "standard_projectile.h"
 
 class TestEntity : public siege_lab::GameEntity
 {
@@ -148,4 +149,28 @@ TEST(SceneObjects, CanRemoveEntitiesAfterFlush)
 
 	EXPECT_EQ(scene.Get(id_b), nullptr);
 	EXPECT_EQ(scene.GetCount(), 0);
+}
+
+TEST(Entities, GO01_FactoryCreatesDerivedTypes)
+{
+	siege_lab::SceneObjects<4> scene;
+
+	siege_lab::EntityId standard_id =
+		scene.CreateEntity<siege_lab::StandardProjectile>();
+
+	siege_lab::EntityId heavy_id =
+		scene.CreateEntity<siege_lab::HeavyProjectile>();
+
+	EXPECT_GE(standard_id.slot, 0);
+	EXPECT_GE(heavy_id.slot, 0);
+	EXPECT_NE(standard_id.slot, heavy_id.slot);
+	EXPECT_EQ(scene.GetCount(), 2u);
+
+	siege_lab::GameEntity* standard = scene.Get(standard_id);
+	siege_lab::GameEntity* heavy = scene.Get(heavy_id);
+
+	ASSERT_NE(standard, nullptr);
+	ASSERT_NE(heavy, nullptr);
+
+	EXPECT_NE(&standard->GetBody(), &heavy->GetBody());
 }

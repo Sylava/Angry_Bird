@@ -24,6 +24,8 @@ namespace siege_lab
         input.mouse_wheel = GetMouseWheelMove();
         input.right_mouse_down = IsMouseButtonDown(MOUSE_BUTTON_RIGHT);
 
+        input.fire_pressed = IsKeyPressed(KEY_SPACE);
+
         return input;
     }
 }

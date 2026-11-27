@@ -21,6 +21,8 @@ namespace siege_lab
 
         bool select_standard = false;
         bool select_heavy = false;
+
+        bool fire_pressed = false;
     };
 }
 
