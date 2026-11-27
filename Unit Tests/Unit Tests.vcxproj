@@ -119,6 +119,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="trajectory_predictor_test.cpp" />
+    <ClCompile Include="trajectory_settings_builder_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SiegeLab_Library\SiegeLab_Library.vcxproj">
