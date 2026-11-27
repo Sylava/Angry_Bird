@@ -9,6 +9,9 @@
 #include "orbit_camera.h"
 #include "scene_objects.h"
 #include "shot_controller.h"
+#include "trajectory_settings_builder.h"
+#include "trajectory_predictor.h"
+#include "trajectory_renderer.h"
 
 namespace siege_lab
 {
@@ -30,10 +33,15 @@ namespace siege_lab
         SceneObjects<kSceneCapacity> m_scene_objects;
         ShotController m_shot_controller{ kInitialAmmo };
 
+        TrajectorySettingsBuilder m_trajectory_settings_builder;
+        TrajectoryPredictor m_trajectory_predictor;
+        TrajectoryRenderer m_trajectory_renderer;
+
         void Update();
         void Draw();
         void DrawEntities();
         void DrawLauncher() const;
+        void DrawTrajectory() const;
         void DrawHud() const;
     };
 }

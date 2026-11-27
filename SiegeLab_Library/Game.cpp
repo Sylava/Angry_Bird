@@ -4,6 +4,8 @@
 
 #include "input_snapshot.h"
 #include "shot_settings.h"
+#include "trajectory_settings.h"
+#include "trajectory_result.h"
 
 namespace siege_lab
 {
@@ -62,6 +64,7 @@ namespace siege_lab
         DrawCubeWires({ 0, 1, 0 }, 2, 2, 2, BLACK);
 
         DrawEntities();
+        DrawTrajectory();
 
         EndMode3D();
 
@@ -86,6 +89,19 @@ namespace siege_lab
 
         DrawLine3D(settings.origin, aim_end, RED);
         DrawSphere(aim_end, 0.08f, RED);
+    }
+
+    void Game::DrawTrajectory() const
+    {
+        const ShotSettings shot = m_launcher.GetShotSettings();
+
+        const TrajectorySettings settings =
+            m_trajectory_settings_builder.Build(shot);
+
+        const TrajectoryResult result =
+            m_trajectory_predictor.Predict(settings);
+
+        m_trajectory_renderer.Draw(result);
     }
 
     void Game::DrawHud() const
