@@ -38,4 +38,16 @@ namespace siege_lab
 		EXPECT_FLOAT_EQ(settings.mass, 2.0f);
 		EXPECT_FLOAT_EQ(settings.radius, 0.36f);
 	}
+
+	TEST(TrajectorySettingsBuilder, UsesStandardProjectileProfile)
+	{
+		ShotSettings shot{};
+		shot.projectile_kind = ProjectileKind::kStandard;
+
+		const TrajectorySettingsBuilder builder;
+		const TrajectorySettings settings = builder.Build(shot);
+
+		EXPECT_FLOAT_EQ(settings.mass, 1.0f);
+		EXPECT_FLOAT_EQ(settings.radius, 0.28f);
+	}
 }  // namespace siege_lab
