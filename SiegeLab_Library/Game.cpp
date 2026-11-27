@@ -1,34 +1,116 @@
-#include "pch.h"
-#include "framework.h"
-
 #include "Game.h"
 
 #include "raylib.h"
 
-void Game::Run()
+#include "input_snapshot.h"
+#include "shot_settings.h"
+
+namespace siege_lab
 {
-	// Tell the window to use vsync and work on high DPI displays
-	SetConfigFlags(FLAG_VSYNC_HINT | FLAG_WINDOW_HIGHDPI);
+    Game::Game()
+        : m_camera({ 0, 1, 0 }, 0, 30, 10),
+        m_launcher({ -8, 1, 0 }, 0, 30, 16)
+    {
+        m_camera_manager.SetController(&m_camera);
+    }
 
-	// Create the window and OpenGL context
-	InitWindow(800, 600, "Hello Raylib");
+    void Game::Run()
+    {
+        InitWindow(1280, 720, "SiegeLab");
+        SetTargetFPS(60);
 
-	// game loop
-	while (!WindowShouldClose())		// run the loop until the user presses ESCAPE or presses the Close button on the window
-	{
-		// drawing
-		BeginDrawing();
+        while (!WindowShouldClose())
+        {
+            Update();
+            Draw();
+        }
 
-		// Setup the back buffer for drawing (clear color and depth buffers)
-		ClearBackground(BLACK);
+        CloseWindow();
+    }
 
-		// draw some text using the default font
-		DrawText("Hello Raylib", 200, 200, 20, WHITE);
+    void Game::Update()
+    {
+        float dt = GetFrameTime();
+        InputSnapshot input = m_input_controller.Capture();
 
-		// end the frame and get ready for the next one  (display frame, poll input, etc...)
-		EndDrawing();
-	}
+        m_camera_manager.Update(input, dt);
+        m_launcher.Update(input, dt);
 
-	// destroy the window and cleanup the OpenGL context
-	CloseWindow();
+        m_shot_controller.Update(
+            input, m_launcher.GetShotSettings(), m_scene_objects);
+    }
+
+    void Game::DrawEntities()
+    {
+        m_scene_objects.ForEach(
+            [](GameEntity& _entity)
+            {
+                _entity.Draw();
+            });
+    }
+
+    void Game::Draw()
+    {
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+
+        BeginMode3D(m_camera_manager.GetCamera());
+
+        DrawLauncher();
+        DrawGrid(20, 1.0f);
+        DrawCube({ 0, 1, 0 }, 2, 2, 2, RED);
+        DrawCubeWires({ 0, 1, 0 }, 2, 2, 2, BLACK);
+
+        DrawEntities();
+
+        EndMode3D();
+
+        DrawHud();
+        DrawFPS(10, 10);
+
+        EndDrawing();
+    }
+
+    void Game::DrawLauncher() const
+    {
+        ShotSettings settings = m_launcher.GetShotSettings();
+
+        DrawSphere(settings.origin, 0.2f, DARKGRAY);
+
+        Vector3 aim_end =
+        {
+          settings.origin.x + settings.direction.x * 3.0f,
+          settings.origin.y + settings.direction.y * 3.0f,
+          settings.origin.z + settings.direction.z * 3.0f
+        };
+
+        DrawLine3D(settings.origin, aim_end, RED);
+        DrawSphere(aim_end, 0.08f, RED);
+    }
+
+    void Game::DrawHud() const
+    {
+        ShotSettings settings = m_launcher.GetShotSettings();
+
+        DrawText(TextFormat("Yaw: %.1f", m_launcher.GetYaw()),
+            10, 40, 20, BLACK);
+
+        DrawText(TextFormat("Pitch: %.1f", m_launcher.GetPitch()),
+            10, 65, 20, BLACK);
+
+        DrawText(TextFormat("Speed: %.1f m/s", m_launcher.GetSpeed()),
+            10, 90, 20, BLACK);
+
+        DrawText(
+            settings.projectile_kind == ProjectileKind::kStandard
+            ? "Projectile: Standard" : "Projectile: Heavy",
+            10, 115, 20, BLACK);
+
+        DrawText(TextFormat("Ammo: %d", m_shot_controller.GetAmmo()),
+            10, 140, 20, BLACK);
+
+        DrawText(TextFormat("Entities: %d",
+            static_cast<int>(m_scene_objects.GetCount())),
+            10, 165, 20, BLACK);
+    }
 }
