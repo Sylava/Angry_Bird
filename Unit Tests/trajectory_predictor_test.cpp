@@ -159,4 +159,27 @@ namespace siege_lab
 		EXPECT_NEAR(result.contact_point.y, 0.0f, 0.005f);
 	}
 
+	TEST(Trajectory, T07_AppliesGravity)
+	{
+		TrajectorySettings settings;
+		settings.origin = { 0.0f, 10.0f, 0.0f };
+		settings.velocity = { 10.0f, 5.0f, 0.0f };
+		settings.acceleration = { 0.0f, -9.81f, 0.0f };
+		settings.damping = 1.0f;
+		settings.max_steps = 60;
+
+		const TrajectoryPredictor predictor;
+		const TrajectoryResult result = predictor.Predict(settings);
+
+		ASSERT_EQ(result.positions.size(), 61u);
+		EXPECT_FALSE(result.has_contact);
+
+		EXPECT_NEAR(result.positions[30].x, 5.0f, 0.005f);
+		EXPECT_NEAR(result.positions[30].y, 11.232875f, 0.005f);
+
+		EXPECT_NEAR(result.positions.back().x, 10.0f, 0.005f);
+		EXPECT_NEAR(result.positions.back().y, 10.01325f, 0.005f);
+		EXPECT_NEAR(result.positions.back().z, 0.0f, 0.005f);
+	}
+
 }
