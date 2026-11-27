@@ -26,4 +26,16 @@ namespace siege_lab
 		EXPECT_FLOAT_EQ(settings.velocity.y, 16.0f);
 		EXPECT_FLOAT_EQ(settings.velocity.z, 0.0f);
 	}
+
+	TEST(TrajectorySettingsBuilder, UsesHeavyProjectileProfile)
+	{
+		ShotSettings shot{};
+		shot.projectile_kind = ProjectileKind::kHeavy;
+
+		const TrajectorySettingsBuilder builder;
+		const TrajectorySettings settings = builder.Build(shot);
+
+		EXPECT_FLOAT_EQ(settings.mass, 2.0f);
+		EXPECT_FLOAT_EQ(settings.radius, 0.36f);
+	}
 }  // namespace siege_lab
