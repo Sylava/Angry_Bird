@@ -66,27 +66,29 @@ namespace siege_lab
         }
     }
 
+    void PhysicsWorld::DetectBoxContacts(
+        const PhysicsRegistration& _registration)
+    {
+        const cyclone::CollisionBox& box =
+            static_cast<const cyclone::CollisionBox&>(
+                *_registration.collider);
+
+        for (const cyclone::CollisionPlane& plane : m_planes)
+        {
+            if (m_collision_data.contactsLeft < 8)
+            {
+                return;
+            }
+
+            cyclone::CollisionDetector::boxAndHalfSpace(
+                box, plane, &m_collision_data);
+        }
+    }
+
     void PhysicsWorld::DetectContacts()
     {
-        m_collision_data.contactArray = m_contacts.data();
-        m_collision_data.reset(kMaxContacts);
-
-        m_collision_data.friction = 0.5f;
-        m_collision_data.restitution = 0.0f;
-        m_collision_data.tolerance = 0.0f;
-
-        for (const PhysicsRegistration& registration : m_registrations)
-        {
-            if (registration.body->getInverseMass() <= 0.0f)
-            {
-                continue;
-            }
-
-            if (registration.kind == ShapeKind::kSphere)
-            {
-                DetectSphereContacts(registration);
-            }
-        }
+        ResetContactData();
+        DetectPlaneContacts();
     }
 
     void PhysicsWorld::ResolveContacts(float _dt)
@@ -137,5 +139,35 @@ namespace siege_lab
     {
         m_registrations.push_back(
             { _id, &_body, &_collider, _kind });
+    }
+
+    void PhysicsWorld::ResetContactData()
+    {
+        m_collision_data.contactArray = m_contacts.data();
+        m_collision_data.reset(kMaxContacts);
+
+        m_collision_data.friction = 0.5f;
+        m_collision_data.restitution = 0.0f;
+        m_collision_data.tolerance = 0.0f;
+    }
+
+    void PhysicsWorld::DetectPlaneContacts()
+    {
+        for (const PhysicsRegistration& registration : m_registrations)
+        {
+            if (registration.body->getInverseMass() <= 0.0f)
+            {
+                continue;
+            }
+
+            if (registration.kind == ShapeKind::kSphere)
+            {
+                DetectSphereContacts(registration);
+            }
+            else if (registration.kind == ShapeKind::kBox)
+            {
+                DetectBoxContacts(registration);
+            }
+        }
     }
 }  // namespace siege_lab

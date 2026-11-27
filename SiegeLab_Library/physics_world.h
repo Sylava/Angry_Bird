@@ -27,9 +27,12 @@ namespace siege_lab
         cyclone::ContactResolver m_resolver{ kSolverIterations };
 
         void DetectContacts();
+        void DetectBoxContacts(const PhysicsRegistration& _registration);
         void DetectSphereContacts(const PhysicsRegistration& _registration);
         void ResolveContacts(float _dt);
         void RefreshColliders();
+        void ResetContactData();
+        void DetectPlaneContacts();
 
         void RegisterObject(
             EntityId _id,

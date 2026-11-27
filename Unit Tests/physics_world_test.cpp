@@ -49,6 +49,32 @@ namespace siege_lab
         _projectile.GetSphere().calculateInternals();
     }
 
+    void InitializeGroundBox(
+        cyclone::RigidBody& _body,
+        cyclone::CollisionBox& _box)
+    {
+        _body.setMass(1.0f);
+
+        cyclone::Matrix3 inertia;
+        inertia.setBlockInertiaTensor(
+            cyclone::Vector3(0.5f, 0.5f, 0.5f), 1.0f);
+
+        _body.setInertiaTensor(inertia);
+        _body.setPosition(0.0f, 0.45f, 0.0f);
+        _body.setOrientation(1.0f, 0.0f, 0.0f, 0.0f);
+        _body.setVelocity(0.0f, 0.0f, 0.0f);
+        _body.setRotation(0.0f, 0.0f, 0.0f);
+        _body.setAcceleration(0.0f, 0.0f, 0.0f);
+        _body.setDamping(1.0f, 1.0f);
+        _body.setCanSleep(false);
+        _body.setAwake(true);
+        _body.calculateDerivedData();
+
+        _box.body = &_body;
+        _box.halfSize = cyclone::Vector3(0.5f, 0.5f, 0.5f);
+        _box.calculateInternals();
+    }
+
     TEST(PhysicsWorld, RegisterBorrowsObject)
     {
         SceneObjects<1> scene;
@@ -158,5 +184,30 @@ namespace siege_lab
 
         EXPECT_EQ(world.GetRegistrationCount(), 0u);
         EXPECT_EQ(box.body, &body);
+    }
+
+    TEST(PhysicsWorld, DetectsBoxGroundContact)
+    {
+        cyclone::RigidBody body;
+        cyclone::CollisionBox box;
+
+        InitializeGroundBox(body, box);
+
+        cyclone::CollisionPlane ground;
+        ground.direction = cyclone::Vector3(0.0f, 1.0f, 0.0f);
+        ground.offset = 0.0f;
+
+        PhysicsWorld world;
+
+        world.RegisterBox({ 0, 1 }, body, box);
+        world.RegisterPlane(ground);
+
+        constexpr float kFixedDt = 1.0f / 60.0f;
+
+        world.Step(kFixedDt);
+
+        EXPECT_GE(world.GetContactCount(), 1u);
+        EXPECT_GT(body.getPosition().y, 0.45f);
+        EXPECT_NEAR(body.getPosition().y, 0.5f, 0.01f);
     }
 }  // namespace siege_lab
