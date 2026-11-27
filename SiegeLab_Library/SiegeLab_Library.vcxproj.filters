@@ -12,6 +12,7 @@
     <ClCompile Include="projectile.cpp" />
     <ClCompile Include="standard_projectile.cpp" />
     <ClCompile Include="trajectory_settings_builder.cpp" />
+    <ClCompile Include="trajectory_renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera_manager.h" />
@@ -38,5 +39,6 @@
     <ClInclude Include="shot_settings.h" />
     <ClInclude Include="standard_projectile.h" />
     <ClInclude Include="trajectory_settings_builder.h" />
+    <ClInclude Include="trajectory_renderer.h" />
   </ItemGroup>
 </Project>
