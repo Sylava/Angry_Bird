@@ -13,6 +13,7 @@
     <ClCompile Include="standard_projectile.cpp" />
     <ClCompile Include="trajectory_settings_builder.cpp" />
     <ClCompile Include="trajectory_renderer.cpp" />
+    <ClCompile Include="physics_world.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera_manager.h" />
@@ -40,5 +41,7 @@
     <ClInclude Include="standard_projectile.h" />
     <ClInclude Include="trajectory_settings_builder.h" />
     <ClInclude Include="trajectory_renderer.h" />
+    <ClInclude Include="physics_world.h" />
+    <ClInclude Include="physics_registration.h" />
   </ItemGroup>
 </Project>
