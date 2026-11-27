@@ -8,6 +8,9 @@
 
 namespace siege_lab
 {
+
+    ////////////////// FUNCTIONS ////////////////////////
+
     void InitializeFallingProjectile(StandardProjectile& _projectile)
     {
         cyclone::RigidBody& body = _projectile.GetBody();
@@ -91,6 +94,55 @@ namespace siege_lab
         _projectile.GetSphere().radius = 0.5f;
         _projectile.GetSphere().calculateInternals();
     }
+
+    void InitializeCollisionBox(
+        cyclone::RigidBody& _body,
+        cyclone::CollisionBox& _box)
+    {
+        InitializeGroundBox(_body, _box);
+
+        _body.setPosition(0.0f, 2.0f, 0.0f);
+        _body.calculateDerivedData();
+        _box.calculateInternals();
+    }
+
+    void CheckBoxSphereContact(bool _box_first)
+    {
+        cyclone::RigidBody body;
+        cyclone::CollisionBox box;
+        StandardProjectile projectile;
+
+        InitializeCollisionBox(body, box);
+        InitializeCollisionSphere(projectile, 0.9f);
+
+        PhysicsWorld world;
+
+        if (_box_first)
+        {
+            world.RegisterBox({ 0, 1 }, body, box);
+            world.RegisterSphere(
+                { 1, 1 }, projectile.GetBody(), projectile.GetSphere());
+        }
+        else
+        {
+            world.RegisterSphere(
+                { 1, 1 }, projectile.GetBody(), projectile.GetSphere());
+            world.RegisterBox({ 0, 1 }, body, box);
+        }
+
+        world.Step(1.0f / 60.0f);
+
+        EXPECT_EQ(world.GetContactCount(), 1u);
+
+        EXPECT_NEAR(projectile.GetBody().getPosition().x -
+            body.getPosition().x, 1.0f, 0.01f);
+    }
+
+
+
+    ////////////////// TESTS ////////////////////////
+
+
 
     TEST(PhysicsWorld, RegisterBorrowsObject)
     {
@@ -253,5 +305,15 @@ namespace siege_lab
             first.GetBody().getPosition().x;
 
         EXPECT_NEAR(distance, 1.0f, 0.01f);
+    }
+
+    TEST(PhysicsWorld, DetectsBoxSphereContact)
+    {
+        CheckBoxSphereContact(true);
+    }
+
+    TEST(PhysicsWorld, DetectsSphereBoxContact)
+    {
+        CheckBoxSphereContact(false);
     }
 }  // namespace siege_lab

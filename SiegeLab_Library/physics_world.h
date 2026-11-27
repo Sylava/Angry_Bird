@@ -41,6 +41,9 @@ namespace siege_lab
         void DetectSphereSphere(
             const PhysicsRegistration& _first,
             const PhysicsRegistration& _second);
+        void DetectBoxSphere(
+            const PhysicsRegistration& _box,
+            const PhysicsRegistration& _sphere);
 
         void RegisterObject(
             EntityId _id,

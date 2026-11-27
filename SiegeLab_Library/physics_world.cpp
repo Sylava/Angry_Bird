@@ -105,13 +105,9 @@ namespace siege_lab
         const PhysicsRegistration& _first,
         const PhysicsRegistration& _second)
     {
-        if (_first.body == _second.body)
-        {
-            return;
-        }
-
-        if (_first.body->getInverseMass() <= 0.0f &&
-            _second.body->getInverseMass() <= 0.0f)
+        if (_first.body == _second.body ||
+            (_first.body->getInverseMass() <= 0.0f &&
+                _second.body->getInverseMass() <= 0.0f))
         {
             return;
         }
@@ -121,6 +117,33 @@ namespace siege_lab
         {
             DetectSphereSphere(_first, _second);
         }
+        else if (_first.kind != _second.kind)
+        {
+            if (_first.kind == ShapeKind::kBox)
+            {
+                DetectBoxSphere(_first, _second);
+            }
+            else
+            {
+                DetectBoxSphere(_second, _first);
+            }
+        }
+    }
+
+    void PhysicsWorld::DetectBoxSphere(
+        const PhysicsRegistration& _box,
+        const PhysicsRegistration& _sphere)
+    {
+        const cyclone::CollisionBox& box =
+            static_cast<const cyclone::CollisionBox&>(
+                *_box.collider);
+
+        const cyclone::CollisionSphere& sphere =
+            static_cast<const cyclone::CollisionSphere&>(
+                *_sphere.collider);
+
+        cyclone::CollisionDetector::boxAndSphere(
+            box, sphere, &m_collision_data);
     }
 
     void PhysicsWorld::DetectSphereSphere(
