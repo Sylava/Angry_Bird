@@ -1,5 +1,6 @@
 #include "trajectory_settings_builder.h"
 
+#include "cyclone/body.h"
 #include "heavy_projectile.h"
 #include "projectile.h"
 #include "standard_projectile.h"
@@ -12,11 +13,25 @@ namespace siege_lab
             Projectile& _projectile,
             TrajectorySettings& _settings)
         {
-            _settings.mass =
-                static_cast<float>(_projectile.GetBody().getMass());
+            cyclone::RigidBody& body = _projectile.GetBody();
+            const cyclone::Vector3 acceleration = body.getAcceleration();
 
+            _settings.mass = static_cast<float>(body.getMass());
             _settings.radius =
                 static_cast<float>(_projectile.GetSphere().radius);
+
+            _settings.acceleration =
+            {
+              static_cast<float>(acceleration.x),
+              static_cast<float>(acceleration.y),
+              static_cast<float>(acceleration.z)
+            };
+
+            _settings.damping =
+                static_cast<float>(body.getLinearDamping());
+
+            _settings.angular_damping =
+                static_cast<float>(body.getAngularDamping());
         }
     }  // namespace
 
