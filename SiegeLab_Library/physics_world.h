@@ -35,6 +35,7 @@ namespace siege_lab
         void DetectPlaneContacts();
         void DetectObjectContacts();
 
+
         void DetectObjectPair(
             const PhysicsRegistration& _first,
             const PhysicsRegistration& _second);
@@ -44,12 +45,18 @@ namespace siege_lab
         void DetectBoxSphere(
             const PhysicsRegistration& _box,
             const PhysicsRegistration& _sphere);
-
+        void DetectBoxBox(
+            const PhysicsRegistration& _first,
+            const PhysicsRegistration& _second);
+        void DetectShapePair(
+            const PhysicsRegistration& _first,
+            const PhysicsRegistration& _second);
         void RegisterObject(
             EntityId _id,
             cyclone::RigidBody& _body,
             cyclone::CollisionPrimitive& _collider,
             ShapeKind _kind);
+
 
 
     public:

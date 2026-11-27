@@ -316,4 +316,33 @@ namespace siege_lab
     {
         CheckBoxSphereContact(false);
     }
+
+    TEST(PhysicsWorld, DetectsBoxBoxContact)
+    {
+        cyclone::RigidBody first_body;
+        cyclone::RigidBody second_body;
+        cyclone::CollisionBox first_box;
+        cyclone::CollisionBox second_box;
+
+        InitializeCollisionBox(first_body, first_box);
+        InitializeCollisionBox(second_body, second_box);
+
+        second_body.setPosition(0.9f, 2.0f, 0.0f);
+        second_body.calculateDerivedData();
+        second_box.calculateInternals();
+
+        PhysicsWorld world;
+
+        world.RegisterBox({ 0, 1 }, first_body, first_box);
+        world.RegisterBox({ 1, 1 }, second_body, second_box);
+
+        world.Step(1.0f / 60.0f);
+
+        EXPECT_GE(world.GetContactCount(), 1u);
+
+        const float distance = second_body.getPosition().x -
+            first_body.getPosition().x;
+
+        EXPECT_GT(distance, 0.9f);
+    }
 }  // namespace siege_lab

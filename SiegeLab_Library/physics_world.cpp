@@ -112,21 +112,30 @@ namespace siege_lab
             return;
         }
 
+        DetectShapePair(_first, _second);
+    }
+
+    void PhysicsWorld::DetectShapePair(
+        const PhysicsRegistration& _first,
+        const PhysicsRegistration& _second)
+    {
         if (_first.kind == ShapeKind::kSphere &&
             _second.kind == ShapeKind::kSphere)
         {
             DetectSphereSphere(_first, _second);
         }
-        else if (_first.kind != _second.kind)
+        else if (_first.kind == ShapeKind::kBox &&
+            _second.kind == ShapeKind::kBox)
         {
-            if (_first.kind == ShapeKind::kBox)
-            {
-                DetectBoxSphere(_first, _second);
-            }
-            else
-            {
-                DetectBoxSphere(_second, _first);
-            }
+            DetectBoxBox(_first, _second);
+        }
+        else if (_first.kind == ShapeKind::kBox)
+        {
+            DetectBoxSphere(_first, _second);
+        }
+        else
+        {
+            DetectBoxSphere(_second, _first);
         }
     }
 
@@ -144,6 +153,22 @@ namespace siege_lab
 
         cyclone::CollisionDetector::boxAndSphere(
             box, sphere, &m_collision_data);
+    }
+
+    void PhysicsWorld::DetectBoxBox(
+        const PhysicsRegistration& _first,
+        const PhysicsRegistration& _second)
+    {
+        const cyclone::CollisionBox& first =
+            static_cast<const cyclone::CollisionBox&>(
+                *_first.collider);
+
+        const cyclone::CollisionBox& second =
+            static_cast<const cyclone::CollisionBox&>(
+                *_second.collider);
+
+        cyclone::CollisionDetector::boxAndBox(
+            first, second, &m_collision_data);
     }
 
     void PhysicsWorld::DetectSphereSphere(
