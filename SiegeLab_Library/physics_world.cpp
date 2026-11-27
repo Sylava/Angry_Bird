@@ -28,4 +28,17 @@ namespace siege_lab
     {
         return m_registrations.size();
     }
+
+    void PhysicsWorld::Step(float _dt)
+    {
+        for (PhysicsRegistration& registration : m_registrations)
+        {
+            if (registration.body->getInverseMass() > 0.0f)
+            {
+                registration.body->integrate(_dt);
+            }
+
+            registration.collider->calculateInternals();
+        }
+    }
 }  // namespace siege_lab

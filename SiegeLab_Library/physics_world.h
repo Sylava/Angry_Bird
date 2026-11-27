@@ -25,8 +25,8 @@ namespace siege_lab
             cyclone::CollisionSphere& _sphere);
 
         void UnregisterObject(EntityId _id);
-
         std::size_t GetRegistrationCount() const;
+        void Step(float _dt);
     };
 }  // namespace siege_lab
 
