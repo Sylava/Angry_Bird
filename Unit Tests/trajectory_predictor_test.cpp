@@ -6,9 +6,23 @@
 #include "trajectory_settings.h"
 #include <cyclone/body.h>
 #include "trajectory_obstacle.h"
+#include "standard_projectile.h"
+#include "shot_settings.h"
+#include "trajectory_settings_builder.h"
 
 namespace siege_lab
 {
+
+	void ExpectSamePosition(
+		const Vector3& _predicted,
+		const cyclone::Vector3& _actual)
+	{
+		constexpr float kTolerance = 0.0001f;
+
+		EXPECT_NEAR(_predicted.x, _actual.x, kTolerance);
+		EXPECT_NEAR(_predicted.y, _actual.y, kTolerance);
+		EXPECT_NEAR(_predicted.z, _actual.z, kTolerance);
+	}
 
 	TEST(Trajectory, T01_StartsAtLauncher)
 	{
@@ -180,6 +194,35 @@ namespace siege_lab
 		EXPECT_NEAR(result.positions.back().x, 10.0f, 0.005f);
 		EXPECT_NEAR(result.positions.back().y, 10.01325f, 0.005f);
 		EXPECT_NEAR(result.positions.back().z, 0.0f, 0.005f);
+	}
+
+	TEST(Trajectory, T08_MatchesRealProjectile)
+	{
+		ShotSettings shot{};
+		shot.origin = { -8.0f, 5.0f, 0.0f };
+		shot.direction = { 0.6f, 0.8f, 0.0f };
+		shot.speed = 16.0f;
+		shot.projectile_kind = ProjectileKind::kStandard;
+
+		StandardProjectile projectile(shot);
+		cyclone::RigidBody& body = projectile.GetBody();
+
+		const TrajectorySettingsBuilder builder;
+		TrajectorySettings settings = builder.Build(shot);
+		settings.max_steps = 20;
+
+		const TrajectoryPredictor predictor;
+		const TrajectoryResult result = predictor.Predict(settings);
+
+		ASSERT_EQ(result.positions.size(), 21u);
+		EXPECT_FALSE(result.has_contact);
+		ExpectSamePosition(result.positions[0], body.getPosition());
+
+		for (int step = 1; step <= settings.max_steps; ++step)
+		{
+			body.integrate(settings.fixed_dt);
+			ExpectSamePosition(result.positions[step], body.getPosition());
+		}
 	}
 
 }

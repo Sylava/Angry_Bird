@@ -6,6 +6,7 @@
 #include "shot_settings.h"
 #include "trajectory_settings.h"
 #include "trajectory_result.h"
+#include "trajectory_obstacle.h"
 
 namespace siege_lab
 {
@@ -95,8 +96,14 @@ namespace siege_lab
     {
         const ShotSettings shot = m_launcher.GetShotSettings();
 
-        const TrajectorySettings settings =
+        TrajectorySettings settings =
             m_trajectory_settings_builder.Build(shot);
+
+        TrajectoryObstacle obstacle{};
+        obstacle.position = { 0.0f, 1.0f, 0.0f };
+        obstacle.half_size = { 1.0f, 1.0f, 1.0f };
+
+        settings.obstacles.push_back(obstacle);
 
         const TrajectoryResult result =
             m_trajectory_predictor.Predict(settings);
